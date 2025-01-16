@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block contenu1 %}
+<h1>Ajouter un livre à la base</h1>
+<form action="/admin/enregistrer/livre" method="POST">
+    <fieldset>
+        <legend>Saisie d'un livre</legend>
+        <label for='idTitre'>Titre</label>
+        <input type="text" name="titre" id="idTitre"><br>
+        <label for='idEditeur'>Editeur</label>
+        <input type="text" name="editeur" id="idEditeur"><br>
+        <label for='idAnnee'>Année</label>
+        <input type="text" name="annee" id="idAnnee"><br>
+        <label for='idISBN'>ISBN</label>
+        <input type="text" name="isbn" id="idISBN"><br>
+        <input type="submit" name="envoyer">
+    </fieldset>
+</form>
+{% endblock %}

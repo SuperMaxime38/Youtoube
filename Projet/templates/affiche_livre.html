@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block contenu1 %}
+<table>
+    <tr><th>Titre</th><th>Éditeur</th><th>Année</th><th>ISBN</th></tr>
+    {% for ligne in liste_des_livres %}
+    <tr><td>{{ligne[0]}}</td><td>{{ligne[1]}}</td><td>{{ligne[2]}}</td>
+                    <td>{{ligne[3]}}</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}
