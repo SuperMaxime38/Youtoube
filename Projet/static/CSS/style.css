@@ -59,13 +59,18 @@
     align-items: center;
     justify-content: space-between;
   }
+
+  .topnav-left{
+    display: flex;
+    align-items: center;
+  }
   
   /* Style the links inside the navigation bar */
   .topnav a {
     float: left;
     color: black;
     text-align: center;
-    padding: 14px 16px;
+    padding: 20px 24px;
     text-decoration: none;
     font-size: 17px;
     border: 1px solid red;
@@ -86,10 +91,10 @@
   /* Style the search box inside the navigation bar */
   .topnav input[type=text] {
     float: right;
-    padding: 6px;
+    padding: 10px;
     border: none;
-    margin-top: 8px;
     margin-right: 16px;
+    width: 300px;
     font-size: 17px;
   }
   
@@ -112,4 +117,14 @@ a {
 }
 .navbutton {
     margin-right: 10%;
+}
+
+h1 {
+    text-decoration: underline;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
