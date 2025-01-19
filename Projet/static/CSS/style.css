@@ -1,3 +1,7 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 /* CODE CSS DU MENU NAV DE COTE*/
  /* The side navigation menu */
  .sidenav {
@@ -135,8 +139,8 @@ h1 {
 }
 
 h3 {
-  margin-top: -5px;
-  margin-bottom: -20px;
+  margin-top: 0px;
+  margin-bottom: -15px;
 }
 
 .datas {
@@ -156,4 +160,56 @@ video {
 
 .video {
   width: 10%;
+}
+
+.datas p {
+  margin-right: 10px;
+  margin-left: 3px;
+}
+
+.video-info{
+  background-color: grey;
+}
+
+.videopage {
+  border: 1px solid red;
+  width: 88%;
+  margin-left: 12%; /* Même taille que la nav bar pr overlap*/
+  margin-top: 20px;
+}
+
+.videopage td {
+  border: 1px solid blue;
+}
+
+.videopage td.main {
+  border: 1px solid green;
+  width: 65%;
+  padding: auto;
+}
+
+.autresvideos {
+  border: 1px solid yellow;
+  width: 100%;
+  height: 960px;
+  overflow-y: scroll;
+  scrollbar-color:  rgb(72, 72, 72) rgb(190, 190, 190);
+  scrollbar-width: thin;
+}
+
+.autresvideos h2 {
+  text-align: center;
+}
+
+.autresvideos tr td {
+  border: 1px solid green;
+  width: 100%;
+  height: auto;
+}
+
+.autresvideos-liste {
+  display: flex;
+  justify-content: left;
+  border: 1px solid red;
+  width: 99%;
 }

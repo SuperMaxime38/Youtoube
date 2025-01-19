@@ -27,11 +27,45 @@
       <h1>YOUTOUBE</h1>
       <input type="text" placeholder="Search on Youtoube...">
     </div>
-    <div class="content">
-      <video src="{{video[2]}}" controls></video>
-      <h2>{{video[3]}}</h2>
-      <h3>{{video[1]}}</h3>
-      <p>Views: {{video[4]}}</p>
+    <div class="vid">
+
+      <table class="videopage">
+        <tr>
+          <td class="main">
+            <video src="{{video[2]}}" controls></video>
+              <div class="video-info">
+                <h2>{{video[3]}}</h2>
+                <h3>{{video[1]}}</h3>
+                <p>Views: {{video[4]}}</p>
+              </div>
+              <div class="comments">
+                <h2>Comments</h2>
+              </div>
+          </td>
+          <td>
+            <div class="autresvideos">
+              <h2>D'autres vidéos que vous pourriez aimer</h2>
+              <div>
+                <form action="/video" method="POST" id="videoform">
+                  <div class="autresvideos-liste">
+                    <button type="submit" name="video" value="{{video[0]}}"><video name="vid" src="{{video[2]}}"  id="{{video[0]}}"></video></button>
+                    <div>
+                      <h3>{{ video[3] }}</h3>
+                      <p>{{video[1]}}</p>
+                      <p>{{video[4]}} views</p>
+                    </div>
+                  
+                  </div>
+                  
+                </form>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      
+      
     </div>
 </div> 
 {% endblock %}
