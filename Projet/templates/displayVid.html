@@ -2,12 +2,36 @@
 
 {% block contenu1 %}
 <div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="#">About</a>
-    <a href="#">Services</a>
-    <a href="#">Clients</a>
-    <a href="#">Contact</a>
-  </div>
-  <p>{{video}}</p>
-  <p>Test</p>
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="#">About</a>
+  <a href="#">Services</a>
+  <a href="#">Clients</a>
+  <a href="#">Contact</a>
+</div>
+
+<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<div id="main">
+  <div class="topnav">
+      <div class="topnav-left">
+              <!--NAVBAR BUTTON-->
+          <a onclick="openNav()" class="navbutton">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="auto" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+              </svg>
+          </a>
+          <a href="/" class="inactive" >Accueil</a>
+          <a href="#about" class="inactive" >Nouveautés</a>
+          <a href="#contact" class="inactive" >Lorem</a>
+      </div>
+
+      <h1>YOUTOUBE</h1>
+      <input type="text" placeholder="Search on Youtoube...">
+    </div>
+    <div class="content">
+      <video src="{{video[2]}}" controls></video>
+      <h2>{{video[3]}}</h2>
+      <h3>{{video[1]}}</h3>
+      <p>Views: {{video[4]}}</p>
+    </div>
+</div> 
 {% endblock %}

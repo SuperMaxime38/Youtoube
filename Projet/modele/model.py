@@ -32,4 +32,27 @@ def getTopVideos():
     cur.execute("SELECT * FROM Videos")
     rows = cur.fetchall()
     cnx.close()
-    return rows
+
+    counter=0
+    videos = [[]]
+    while counter < len(rows):
+        row = []
+        for i in range(6):
+            if counter < len(rows):
+                row.append(rows[counter])
+                counter += 1
+            else:
+                break
+        videos.append(row)
+
+    return videos
+
+def getVideo(videoId):
+
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    cur.execute("SELECT * FROM Videos WHERE id = ?", (videoId,))
+    rows = cur.fetchall()
+    cnx.close()
+
+    return rows[0]

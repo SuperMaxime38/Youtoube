@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request, redirect
-from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos
+from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo
 app = Flask(__name__)
 @app.route('/')
 def index():
@@ -27,8 +27,11 @@ def enregistrer_livre():
 @app.route("/video", methods=['POST'])
 def video():
     result = request.form
-    video = result['video']
-    print("opened video " + video)
+    id = result['video']
+
+    video = getVideo(id)
+    print(video)
+
     return render_template('displayVid.html', video = video)
 
 # @app.route('/video/watch', methods=['POST'])

@@ -1,1 +1,1 @@
-from .model import selectionner_livre, mettre_a_jour_table_livre, getTopVideos
+from .model import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo

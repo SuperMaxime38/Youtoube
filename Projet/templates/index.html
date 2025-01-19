@@ -7,7 +7,7 @@
     <a href="#">Services</a>
     <a href="#">Clients</a>
     <a href="#">Contact</a>
-  </div>
+</div>
   
   <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
   <div id="main">
@@ -29,8 +29,9 @@
       </div>
       <div class="content">
         <table>
+            {% for row in videos %}
             <tr>
-                {% for video in videos %}
+                {% for video in row %}
                 <td class="minia">
                     <form action="/video" method="POST" id="videoform">
                         <button type="submit" name="video" value="{{video[0]}}"><video name="vid" src="{{video[2]}}"  id="{{video[0]}}"></video></button>
@@ -43,6 +44,7 @@
                 </td>
                 {% endfor %}
             </tr>
+            {% endfor %}
                 
         </table>
       </div>

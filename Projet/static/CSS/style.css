@@ -73,7 +73,6 @@
     padding: 20px 24px;
     text-decoration: none;
     font-size: 17px;
-    border: 1px solid red;
   }
   
   /* Change the color of links on hover */
@@ -136,7 +135,6 @@ h1 {
 }
 
 h3 {
-  border: 1px solid red;
   margin-top: -5px;
   margin-bottom: -20px;
 }
@@ -145,17 +143,17 @@ h3 {
     display: flex;
     align-items: center;
     justify-content: left;
-    border: 1px solid red;
     border-spacing: 0px;
 }
 
 video {
-  border: 1px solid blue;
   width: 100%;
 }
 
 .minia {
-  padding: 50px 10px 50px 10px;
-  border: 1px solid red;
-  width: 5000px;
+  padding: 20px 8px 20px 8px;
+}
+
+.video {
+  width: 10%;
 }
