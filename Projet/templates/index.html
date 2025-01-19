@@ -30,222 +30,29 @@
       <div class="content">
         <table>
             <tr>
+                {% for video in videos %}
                 <td class="minia">
-                    <video src="https://www.w3schools.com/html/mov_bbb.mp4" onclick="playVideo(this)"></video>
-                    <h3>Video title</h3>
-                    <div class="datas">
-                        <p>Author</p>
-                        <p>Views</p>
-                        <p>Date</p>
-                    </div>
-                    
+                    <form action="/video" method="POST" id="videoform">
+                        <button type="submit" name="video" value="{{video[0]}}"><video name="vid" src="{{video[2]}}"  id="{{video[0]}}"></video></button>
+                        <h3>{{ video[3] }}</h3>
+                        <div class="datas">
+                            <p>{{video[1]}}</p>
+                            <p>{{video[4]}}</p>
+                        </div>
+                    </form>
                 </td>
-                <td class="minia">
-                    
-                    <video src="https://www.w3schools.com/html/mov_bbb.mp4" onclick="playVideo(this)"></video>
-                    <h3>Video title</h3>
-                    <div class="datas">
-                        <p>Author</p>
-                        <p>Views</p>
-                        <p>Date</p>
-                    </div>
-                </td>
-                <td class="minia">
-                    
-                    <video src="https://www.w3schools.com/html/mov_bbb.mp4" onclick="playVideo(this)"></video>
-                    <h3>Video title</h3>
-                    <div class="datas">
-                        <p>Author</p>
-                        <p>Views</p>
-                        <p>Date</p>
-                    </div>
-                </td>
-                <td class="minia">
-                    
-                    <video src="https://www.w3schools.com/html/mov_bbb.mp4" onclick="playVideo(this)"></video>
-                    <h3>Video title</h3>
-                    <div class="datas">
-                        <p>Author</p>
-                        <p>Views</p>
-                        <p>Date</p>
-                    </div>
-                </td>
-                <td class="minia">
-                    
-                    <video src="https://www.w3schools.com/html/mov_bbb.mp4" onclick="playVideo(this)"></video>
-                    <h3>Video title</h3>
-                    <div class="datas">
-                        <p>Author</p>
-                        <p>Views</p>
-                        <p>Date</p>
-                    </div>
-                </td>
-                <td class="minia">
-                    
-                    <video src="https://www.w3schools.com/html/mov_bbb.mp4" onclick="playVideo(this)"></video>
-                    <h3>Video title</h3>
-                    <div class="datas">
-                        <p>Author</p>
-                        <p>Views</p>
-                        <p>Date</p>
-                    </div>
-                </td>
+                {% endfor %}
             </tr>
-            <tr>
-                <td class="minia">
-                    
-                    <video src="https://www.w3schools.com/html/mov_bbb.mp4" onclick="playVideo(this)"></video>
-                    <h3>Video title</h3>
-                    <div class="datas">
-                        <p>Author</p>
-                        <p>Views</p>
-                        <p>Date</p>
-                    </div>
-                </td>
-                <td class="minia">
-                    
-                    <video src="https://www.w3schools.com/html/mov_bbb.mp4" onclick="playVideo(this)"></video>
-                    <h3>Video title</h3>
-                    <div class="datas">
-                        <p>Author</p>
-                        <p>Views</p>
-                        <p>Date</p>
-                    </div>
-                </td>
-                <td class="minia">
-                    
-                    <video src="https://www.w3schools.com/html/mov_bbb.mp4" onclick="playVideo(this)"></video>
-                    <h3>Video title</h3>
-                    <div class="datas">
-                        <p>Author</p>
-                        <p>Views</p>
-                        <p>Date</p>
-                    </div>
-                </td>
-                <td class="minia">
-                    
-                    <video src="https://www.w3schools.com/html/mov_bbb.mp4" onclick="playVideo(this)"></video>
-                    <h3>Video title</h3>
-                    <div class="datas">
-                        <p>Author</p>
-                        <p>Views</p>
-                        <p>Date</p>
-                    </div>
-                </td>
-                <td class="minia">
-                    
-                    <video src="https://www.w3schools.com/html/mov_bbb.mp4" onclick="playVideo(this)"></video>
-                    <h3>Video title</h3>
-                    <div class="datas">
-                        <p>Author</p>
-                        <p>Views</p>
-                        <p>Date</p>
-                    </div>
-                </td>
-                <td class="minia">
-                    
-                    <video src="https://www.w3schools.com/html/mov_bbb.mp4" onclick="playVideo(this)"></video>
-                    <h3>Video title</h3>
-                    <div class="datas">
-                        <p>Author</p>
-                        <p>Views</p>
-                        <p>Date</p>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="minia">
-                    
-                    <video src="https://www.w3schools.com/html/mov_bbb.mp4" onclick="playVideo(this)"></video>
-                    <h3>Video title</h3>
-                    <div class="datas">
-                        <p>Author</p>
-                        <p>Views</p>
-                        <p>Date</p>
-                    </div>
-                </td>
-                <td class="minia">
-                    
-                    <video src="https://www.w3schools.com/html/mov_bbb.mp4" onclick="playVideo(this)"></video>
-                    <h3>Video title</h3>
-                    <div class="datas">
-                        <p>Author</p>
-                        <p>Views</p>
-                        <p>Date</p>
-                    </div>
-                </td>
-                <td class="minia">
-                    
-                    <video src="https://www.w3schools.com/html/mov_bbb.mp4" onclick="playVideo(this)"></video>
-                    <h3>Video title</h3>
-                    <div class="datas">
-                        <p>Author</p>
-                        <p>Views</p>
-                        <p>Date</p>
-                    </div>
-                </td>
-                <td class="minia">
-                    
-                    <video src="https://www.w3schools.com/html/mov_bbb.mp4" onclick="playVideo(this)"></video>
-                    <h3>Video title</h3>
-                    <div class="datas">
-                        <p>Author</p>
-                        <p>Views</p>
-                        <p>Date</p>
-                    </div>
-                </td>
-                <td class="minia">
-                    
-                    <video src="https://www.w3schools.com/html/mov_bbb.mp4" onclick="playVideo(this)"></video>
-                    <h3>Video title</h3>
-                    <div class="datas">
-                        <p>Author</p>
-                        <p>Views</p>
-                        <p>Date</p>
-                    </div>
-                </td>
-                <td class="minia">
-                    
-                    <video src="https://www.w3schools.com/html/mov_bbb.mp4" onclick="playVideo(this)"></video>
-                    <h3>Video title</h3>
-                    <div class="datas">
-                        <p>Author</p>
-                        <p>Views</p>
-                        <p>Date</p>
-                    </div>
-                </td>
-            </tr>
+                
         </table>
       </div>
   </div> 
 
 <script>
-    /* Set the width of the side navigation to 250px */
-    /* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
-
-let isNavOpen = false;
-function openNav() {
-  if(isNavOpen){
-    console.log("close");
-      closeNav();
-      isNavOpen = false;
-  } else {
-    document.getElementById("mySidenav").style.width = "12%";
-    document.getElementById("main").style.marginLeft = "12%";
-    isNavOpen = true;
-  }
-  
-}
-
-/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
-function closeNav() {
-  document.getElementById("mySidenav").style.width = "0%";
-  document.getElementById("main").style.marginLeft = "0%";
-  isNavOpen = false;
-}
 
 function playVideo(video) {
   video.play();
+
 }
 
 </script>
