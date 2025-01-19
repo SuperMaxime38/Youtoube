@@ -8,8 +8,8 @@
           closeNav();
           isNavOpen = false;
       } else {
-        document.getElementById("mySidenav").style.width = "12%";
-        document.getElementById("main").style.marginLeft = "12%";
+        document.getElementById("mySidenav").style.width = "14%";
+        document.getElementById("main").style.marginLeft = "14%";
         isNavOpen = true;
       }
       
