@@ -33,13 +33,18 @@ def getTopVideos():
     rows = cur.fetchall()
     cnx.close()
 
+    return getVideoTable(rows)
+
+def getVideoTable(videoList: list):
+    
+    
     counter=0
     videos = [[]]
-    while counter < len(rows):
+    while counter < len(videoList):
         row = []
-        for i in range(6):
-            if counter < len(rows):
-                row.append(rows[counter])
+        for _ in range(6):
+            if counter < len(videoList):
+                row.append(videoList[counter])
                 counter += 1
             else:
                 break
@@ -56,3 +61,16 @@ def getVideo(videoId):
     cnx.close()
 
     return rows[0]
+
+
+def research(query):
+
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    cur.execute("SELECT * FROM Videos WHERE title LIKE ?", (f"%{query}%",))
+    rows = cur.fetchall()
+    cnx.close()
+
+    print(getVideoTable(rows))
+
+    return getVideoTable(rows)

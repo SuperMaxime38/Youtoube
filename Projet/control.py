@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request, redirect
-from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo
+from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research
 app = Flask(__name__)
 @app.route('/')
 def index():
@@ -34,8 +34,10 @@ def video():
 
     return render_template('displayVid.html', video = video)
 
-# @app.route('/video/watch', methods=['POST'])
-# def watch():
-#     result = request.form
-#     print(result)
-#     return redirect(url_for('video'))
+@app.route("/search", methods=['POST'])
+def search():
+    query = request.form['query']
+    videos = research(query)
+    print("videos : ", videos)
+
+    return render_template('search.html', videos = videos)

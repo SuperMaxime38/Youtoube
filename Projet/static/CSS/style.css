@@ -41,7 +41,11 @@ body {
     font-size: 36px;
     margin-left: 50px;
   }
-  
+
+  .navbutton {
+    margin-right: 35%;
+}
+
   /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
   #main {
     transition: margin-left .5s;
@@ -116,11 +120,47 @@ body {
       border: 1px solid #ccc;
     }
   }
+
+/*2nd Side Nav*/
+.sidenav2 {
+  display: none;
+  height: 100%;
+  width: 14%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 60px;
+}
+.sidenav2 a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav2 a:hover {
+  color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav2 .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+/*Other*/
+
 a {
     cursor: pointer;
-}
-.navbutton {
-    margin-right: 10%;
 }
 
 h1 {
@@ -213,4 +253,20 @@ video {
   justify-content: left;
   border: 1px solid red;
   width: 99%;
+}
+
+/* CODE CSS DU LOGIN SCREEN (watch out a pas tt casser plz) */
+/* Popup container - can be anything you want */
+.popup {
+  height: 0;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 200px;
+  left: 300px;
+  background-color: #cbcbcb;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  display:none;
 }

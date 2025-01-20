@@ -1,9 +1,19 @@
 {% extends "base.html" %}
 
 {% block contenu0 %}
+<div id="mySidenav" class="sidenav2">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav2()">&times;</a>
+    <a href="javascript:void(0)" onclick="openLoginScreen()">Mon&#160;compte</a>
+    <a href="#">Vos&#160;vidéos</a>
+    <a href="#">Historique</a>
+    <a href="#">Se&#160;déconnecter</a>
+</div>
+{% endblock %}
+
+{% block contenu1 %}
 <div class="topnav-left">
   <!--NAVBAR BUTTON-->
-<a onclick="openNav()" class="navbutton">
+<a onclick="openNav2()" class="navbutton">
   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="auto" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
     <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
   </svg>
@@ -14,7 +24,7 @@
 </div>
 {% endblock %}
 
-{% block contenu1 %}
+{% block contenu2 %}
 <div class="vid">
 
   <table class="videopage">
@@ -25,6 +35,7 @@
             <h2>{{video[3]}}</h2>
             <h3>{{video[1]}}</h3>
             <p>Views: {{video[4]}}</p>
+            <p><h4>Description: </h4>{{video[5]}}</p>
           </div>
           <div class="comments">
             <h2>Comments</h2>
@@ -41,6 +52,7 @@
                   <h3>{{ video[3] }}</h3>
                   <p>{{video[1]}}</p>
                   <p>{{video[4]}} views</p>
+
                 </div>
               
               </div>

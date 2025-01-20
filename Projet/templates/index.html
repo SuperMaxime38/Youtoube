@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 
 {% block contenu0 %}
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="javascript:void(0)" onclick="openLoginScreen()">Mon&#160;compte</a>
+    <a href="#">Vos&#160;vidéos</a>
+    <a href="#">Historique</a>
+    <a href="#">Se&#160;déconnecter</a>
+</div>
+{% endblock %}
+
+{% block contenu1 %}
 <div class="topnav-left">
     <!--NAVBAR BUTTON-->
 <a onclick="openNav()" class="navbutton">
@@ -8,13 +18,13 @@
         <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
     </svg>
 </a>
-<a class="active" href="">Accueil</a>
+<a class="active" href="/">Accueil</a>
 <a href="#about" class="inactive" >Nouveautés</a>
 <a href="#contact" class="inactive" >Lorem</a>
 </div>
 {% endblock %}
 
-{% block contenu1 %}
+{% block contenu2 %}
 <div class="content">
     <table>
         {% for row in videos %}
