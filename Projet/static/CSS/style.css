@@ -259,14 +259,25 @@ video {
 /* Popup container - can be anything you want */
 .popup {
   height: 0;
-  width: 50%;
+  width: 40%;
   position: fixed;
   z-index: 1;
   top: 200px;
-  left: 300px;
+  left: 30%;
+  right: 30%;
   background-color: #cbcbcb;
   overflow-x: hidden;
   transition: 0.5s;
-  padding-top: 60px;
+  padding-top: 0px;
   display:none;
+}
+
+.popup div.divclose {
+  float: right;
+}
+
+.divclose a {
+  text-decoration: none;
+  color: black;
+  font-size: 75px;
 }
