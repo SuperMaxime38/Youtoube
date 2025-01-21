@@ -15,3 +15,7 @@ function openVideo(video) {
     .then((response) => response.json())
     .then((json) => console.log(json));
 }
+
+function addView() {
+  
+}

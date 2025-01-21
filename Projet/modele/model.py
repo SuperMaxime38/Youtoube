@@ -74,3 +74,17 @@ def research(query):
     print(getVideoTable(rows))
 
     return getVideoTable(rows)
+
+def db_identification(resultat):
+    #hachage du mot de passe
+    password = hashlib.sha256()
+    password.update(bytes(resultat['password'], 'utf-8'))
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    cur.execute("SELECT username, login \
+    FROM usagers\
+    WHERE login = ? AND password = ?",\
+    (resultat['login'], password.hexdigest()))
+    rows = cur.fetchall()
+    cnx.close()
+    return rows

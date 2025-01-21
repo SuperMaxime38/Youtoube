@@ -1,6 +1,11 @@
 from flask import Flask, render_template, url_for, request, redirect
-from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research
+from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, db_identification
 app = Flask(__name__)
+
+
+# Config options - Make sure you created a 'config.py' file.
+app.config.from_pyfile('config.py')
+
 @app.route('/')
 def index():
     videos = getTopVideos()

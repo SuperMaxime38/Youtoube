@@ -20,9 +20,14 @@
 					<input type="text" name="query" placeholder="Search on Youtoube...">
 				</form>
 			  </div>
+
+			  <!--POPUP DE LOGIN-->
 			  <div id="myPopup" class="popup">
 				<a href="javascript:void(0)" class="closebtn" onclick="closeLoginScreen()">&times;</a>
-				<p>Machin truc bidulle</p>
+				<form action="/login" method="POST">
+					<p>Machin truc bidulle</p>
+				</form>
+				
 			  </div>
 			  {% block contenu2 %}{% endblock %}
 		  </div>
