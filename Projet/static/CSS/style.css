@@ -270,3 +270,19 @@ video {
   padding-top: 60px;
   display:none;
 }
+
+/* mon css MAXIME NE TOUCHE RIEN C'EST LE BAZAR !! */
+
+.popupComments {
+  height: 0;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 200px;
+  left: 300px;
+  background-color: #cbcbcb;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  display:none;
+}

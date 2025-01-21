@@ -82,3 +82,26 @@ function closeLoginScreen() {
   document.getElementById("myPopup").style.display = "none";
   isLoginScreenOpen = false;
 }
+
+function openComments() {
+
+  if(isLoginScreenOpen){
+      closeComments();
+      isLoginScreenOpen = false;
+  } else {
+    // Set the height of the popup to 800px
+    document.getElementById("myComments").style.height = "800px";
+    // Display the navigation bar
+    document.getElementById("myComments").style.display = "block";
+    isLoginScreenOpen = true;
+  }
+
+}
+
+function closeComments() {
+  // Set the height of the popup to 0
+  document.getElementById("myComments").style.height = "0";
+  // Hide the navigation bar
+  document.getElementById("myComments").style.display = "none";
+  isLoginScreenOpen = false;
+}

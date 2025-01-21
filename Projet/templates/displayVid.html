@@ -37,9 +37,18 @@
             <p>Views: {{video[4]}}</p>
             <p><h4>Description: </h4>{{video[5]}}</p>
           </div>
-          <div class="comments">
-            <h2>Comments</h2>
+
+          <div class="comments"> <!-- repérage -->
+            <a href="javascript:void(0)" onclick="openComments()">comments</a>
+             <!--POPUP DU Commentaire-->
+			      <div id="myComments" class="popupComments">
+              <a href="javascript:void(0)" class="closebtn" onclick="closeComments()">&times;</a>
+              <form action="/login" method="POST">
+                  <p>Commentaire 1</p>
+              </form>
+            </div>
           </div>
+
       </td>
       <td>
         <div class="autresvideos">
