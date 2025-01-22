@@ -17,7 +17,7 @@
 		
 				<h1>YOUTOUBE</h1>
 				<form action="/search" method="POST">
-					<input type="text" name="query" placeholder="Search on Youtoube...">
+					<input type="text" name="query" placeholder="Search on Youtoube..." value="{{query}}">
 				</form>
 			  </div>
 
@@ -26,12 +26,26 @@
 				<div class="divclose">
 					<a href="javascript:void(0)" class="closebtn" onclick="closeLoginScreen()">&times;</a>
 				</div>
+				<div class="logdiv">
+					<form action="/login" method="POST">
+						<h2>LOGIN</h2>
+						<div class="field">
+							<label>USERNAME</label>
+							<input type="text" name="login" placeholder="Enter your username">
+						</div>
+						<div class="field">
+							<label>PASSWORD</label>
+							<input type="text" name="password" placeholder="Enter your password">
+						</div>
+						
+						{% block currentPage %}	{% endblock %}
+						<div>
+							<input type="submit" value="Login">
+						</div>
+						
+					</form>
+				</div>
 				
-				<form action="/login" method="POST">
-					<input type="text" name="login" placeholder="Username">
-					<input type="text" name="password" placeholder="Password">
-					<input type="submit" value="Login">
-				</form>
 				
 			  </div>
 			  {% block contenu2 %}{% endblock %}
