@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, session
 from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, db_identification
 app = Flask(__name__)
 
@@ -46,3 +46,15 @@ def search():
     print("videos : ", videos)
 
     return render_template('search.html', videos = videos)
+
+@app.route("/login", methods=['POST'])
+def login():
+    if request.method == 'POST':
+        resultat = request.form
+        rows = db_identification(resultat)
+        print("logins : " , rows)
+        if len(rows) == 1:
+            session['ID'] = rows[0][0]
+            session['username'] = rows[0][2]
+    return redirect(url_for('index')) #renvoie sur la route '/'
+
