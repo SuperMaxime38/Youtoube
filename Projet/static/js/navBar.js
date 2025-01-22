@@ -83,17 +83,19 @@ function closeLoginScreen() {
   isLoginScreenOpen = false;
 }
 
+let areCommentsOpen = false;
+
 function openComments() {
 
-  if(isLoginScreenOpen){
+  if(areCommentsOpen){
       closeComments();
-      isLoginScreenOpen = false;
+      areCommentsOpen = false;
   } else {
     // Set the height of the popup to 800px
     document.getElementById("myComments").style.height = "800px";
     // Display the navigation bar
     document.getElementById("myComments").style.display = "block";
-    isLoginScreenOpen = true;
+    areCommentsOpen = true;
   }
 
 }
@@ -103,5 +105,5 @@ function closeComments() {
   document.getElementById("myComments").style.height = "0";
   // Hide the navigation bar
   document.getElementById("myComments").style.display = "none";
-  isLoginScreenOpen = false;
+  areCommentsOpen = false;
 }
