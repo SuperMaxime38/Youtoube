@@ -1,4 +1,4 @@
-import sqlite3
+import sqlite3, hashlib
 def ouvrir_connexion():
     cnx = None
     try:
@@ -81,9 +81,9 @@ def db_identification(resultat):
     password.update(bytes(resultat['password'], 'utf-8'))
     cnx = ouvrir_connexion()
     cur = cnx.cursor()
-    cur.execute("SELECT username, login \
-    FROM usagers\
-    WHERE login = ? AND password = ?",\
+    cur.execute("SELECT * \
+    FROM Utilisateurs\
+    WHERE pseudo = ? AND password = ?",\
     (resultat['login'], password.hexdigest()))
     rows = cur.fetchall()
     cnx.close()

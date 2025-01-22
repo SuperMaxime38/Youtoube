@@ -66,7 +66,7 @@ function openLoginScreen() {
       isLoginScreenOpen = false;
   } else {
     // Set the height of the popup to 800px
-    document.getElementById("myPopup").style.height = "800px";
+    document.getElementById("myPopup").style.height = "600px";
     // Display the navigation bar
     document.getElementById("myPopup").style.display = "block";
     isLoginScreenOpen = true;

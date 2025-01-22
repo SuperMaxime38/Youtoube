@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, session
 from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, db_identification
 app = Flask(__name__)
 
@@ -35,14 +35,36 @@ def video():
     id = result['video']
 
     video = getVideo(id)
-    print(video)
+    session['watching'] = video
 
     return render_template('displayVid.html', video = video)
 
-@app.route("/search", methods=['POST'])
+@app.route("/search", methods=['GET', 'POST'])
 def search():
-    query = request.form['query']
-    videos = research(query)
-    print("videos : ", videos)
+    if request.method == 'POST':
+        query = request.form['query']
+        videos = research(query)
+        session['videos'] = videos
+        session['query'] = query
+    else:
+        videos = session['videos']
+        query = session['query']
+    return render_template('search.html', videos = videos, query = query)
 
-    return render_template('search.html', videos = videos)
+@app.route("/login", methods=['POST'])
+def login():
+    if request.method == 'POST':
+        print('request: ', request.form)
+        resultat = request.form
+        rows = db_identification(resultat)
+        nextURL = resultat['current']
+        print("session videos : " , session['videos'])
+        if len(rows) == 1:
+            session['ID'] = rows[0][0]
+            session['username'] = rows[0][2]
+
+        if nextURL == 'video':
+            return redirect(url_for('video'), video = session['watching'])
+    return redirect(url_for(nextURL)) #renvoie sur la route '/'
+
+

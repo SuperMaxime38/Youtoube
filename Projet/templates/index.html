@@ -4,9 +4,9 @@
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <a href="javascript:void(0)" onclick="openLoginScreen()">Mon&#160;compte</a>
-    <a href="#">Vos&#160;vidéos</a>
+    <a href="#">Mes&#160;vidéos</a>
     <a href="#">Historique</a>
-    <a href="#">Se&#160;déconnecter</a>
+    <a href="/logout">Se&#160;déconnecter</a>
 </div>
 {% endblock %}
 
@@ -20,8 +20,13 @@
 </a>
 <a class="active" href="/">Accueil</a>
 <a href="#about" class="inactive" >Nouveautés</a>
-<a href="#contact" class="inactive" >Lorem</a>
+<a href="#contact" class="inactive" >Logged as {{session['username']}}</a>
 </div>
+{% endblock %}
+
+<!--Indicates current page for login-->
+{% block currentPage %}
+<input type="hidden" name="current" value="index"></span>
 {% endblock %}
 
 {% block contenu2 %}
