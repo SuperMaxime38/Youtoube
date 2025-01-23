@@ -88,3 +88,12 @@ def db_identification(resultat):
     rows = cur.fetchall()
     cnx.close()
     return rows
+
+def comment_update(comment_id, video, pseudo, texte):
+    
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    cur.execute("INSERT INTO Commentaires VALUES (?, ?, ?, ?)",(comment_id, \
+                    video[0], pseudo, texte))
+    cnx.commit()
+    cnx.close()

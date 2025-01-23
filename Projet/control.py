@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, request, redirect, session
-from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, db_identification
+from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, db_identification, comment_update
 app = Flask(__name__)
-
+import uuid
 
 # Config options - Make sure you created a 'config.py' file.
 app.config.from_pyfile('config.py')
@@ -9,7 +9,6 @@ app.config.from_pyfile('config.py')
 @app.route('/')
 def index():
     videos = getTopVideos()
-    print(videos)
     return render_template('index.html', videos = videos)
 @app.route('/afficher/livre/')
 def afficher_livre():
@@ -29,14 +28,15 @@ def enregistrer_livre():
     return redirect(url_for('index'))
 
 
-@app.route("/video", methods=['POST'])
+@app.route("/video", methods=['POST', 'GET'])
 def video():
-    result = request.form
-    id = result['video']
-
-    video = getVideo(id)
-    session['watching'] = video
-
+    if request.method == 'POST':
+        result = request.form
+        id = result['video']
+        video = getVideo(id)
+        session['watching'] = video
+    else:
+        video = session['watching'] 
     return render_template('displayVid.html', video = video)
 
 @app.route("/search", methods=['GET', 'POST'])
@@ -72,4 +72,16 @@ def login():
     # DO A LOGIN PAGE
     return render_template('login.html')
 
-
+@app.route("/comment", methods=['POST'])
+def comment():
+    if request.method == 'POST':
+        if 'ID' not in session:
+            return redirect(url_for('index'))
+        else:
+            video = session['watching']
+            texte = request.form['story']
+            pseudo = session['username']
+            comment_id = str(uuid.uuid4())
+            comment_update(comment_id, video, pseudo, texte)
+            return redirect(url_for('video', video = video))
+            
