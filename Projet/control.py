@@ -9,7 +9,6 @@ app.config.from_pyfile('config.py')
 @app.route('/')
 def index():
     videos = getTopVideos()
-    print(videos)
     return render_template('index.html', videos = videos)
 @app.route('/afficher/livre/')
 def afficher_livre():
@@ -29,14 +28,15 @@ def enregistrer_livre():
     return redirect(url_for('index'))
 
 
-@app.route("/video", methods=['POST'])
+@app.route("/video", methods=['POST', 'GET'])
 def video():
-    result = request.form
-    id = result['video']
-
-    video = getVideo(id)
-    session['watching'] = video
-
+    if request.method == 'POST':
+        result = request.form
+        id = result['video']
+        video = getVideo(id)
+        session['watching'] = video
+    else:
+        video = session['watching'] 
     return render_template('displayVid.html', video = video)
 
 @app.route("/search", methods=['GET', 'POST'])
@@ -58,7 +58,6 @@ def login():
         resultat = request.form
         rows = db_identification(resultat)
         nextURL = resultat['current']
-        print("session videos : " , session['videos'])
         if len(rows) == 1:
             session['ID'] = rows[0][0]
             session['username'] = rows[0][2]
