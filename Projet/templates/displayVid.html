@@ -46,11 +46,14 @@
           <div class="comments"> <!-- repérage -->
             <a href="javascript:void(0)" onclick="openComments()">comments</a>
              <!--POPUP DU Commentaire-->
+            <form action="/comment" method="POST">
+              <label for="story">Comments</label>
+              <textarea id="story" name="story" rows="1" cols="33">  
+              </textarea>
+              <input type="submit" value="Submit">
+            </form>
 			      <div id="myComments" class="popupComments">
               <a href="javascript:void(0)" class="closebtn" onclick="closeComments()">&times;</a>
-              <form action="/login" method="POST">
-                  <p>Commentaire 1</p>
-              </form>
             </div>
           </div>
 

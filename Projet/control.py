@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, request, redirect, session
-from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, db_identification
+from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, db_identification, comment_update
 app = Flask(__name__)
-
+import uuid
 
 # Config options - Make sure you created a 'config.py' file.
 app.config.from_pyfile('config.py')
@@ -67,4 +67,16 @@ def login():
             return redirect(url_for('video'), video = session['watching'])
     return redirect(url_for(nextURL)) #renvoie sur la route '/'
 
-
+@app.route("/comment", methods=['POST'])
+def comment():
+    if request.method == 'POST':
+        if 'ID' not in session:
+            return redirect(url_for('index'))
+        else:
+            video = session['watching']
+            texte = request.form['story']
+            pseudo = session['username']
+            comment_id = str(uuid.uuid4())
+            comment_update(comment_id, video, pseudo, texte)
+            return redirect(url_for('video', video = video))
+            
