@@ -58,13 +58,18 @@ def login():
         resultat = request.form
         rows = db_identification(resultat)
         nextURL = resultat['current']
-        print("session videos : " , session['videos'])
+        print("len rows: ", len(rows))
+        print(rows)
         if len(rows) == 1:
             session['ID'] = rows[0][0]
             session['username'] = rows[0][2]
 
-        if nextURL == 'video':
-            return redirect(url_for('video'), video = session['watching'])
-    return redirect(url_for(nextURL)) #renvoie sur la route '/'
+            if nextURL == 'video':
+                return redirect(url_for('video'), video = session['watching'])
+            
+            return redirect(url_for(nextURL)) #renvoie sur la route '/'
+        
+    # DO A LOGIN PAGE
+    return render_template('login.html')
 
 
