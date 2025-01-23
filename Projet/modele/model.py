@@ -97,3 +97,22 @@ def comment_update(comment_id, video, pseudo, texte):
                     video[0], pseudo, texte))
     cnx.commit()
     cnx.close()
+
+def addUser(uuid, pseudo, mail, passwrd):
+    password = hashlib.sha256()
+    password.update(bytes(passwrd, 'utf-8'))
+
+    
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+
+    cur.execute("SELECT * FROM Utilisateurs WHERE adr_mail = ?", (mail,))
+    rows = cur.fetchall()
+    if len(rows) != 0:
+        return False
+
+    cur.execute("INSERT INTO Utilisateurs VALUES (?, ?, ?, ?)",(uuid, \
+                    mail, pseudo, password.hexdigest()))
+    cnx.commit()
+    cnx.close()
+    return True

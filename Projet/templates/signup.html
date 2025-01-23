@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block contenu0 %}
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="javascript:void(0)" onclick="openLoginScreen()">Mon&#160;compte</a>
+    <a href="#">Mes&#160;vidéos</a>
+    <a href="#">Historique</a>
+    <a href="/logout">Se&#160;déconnecter</a>
+</div>
+{% endblock %}
+
+{% block contenu1 %}
+<div class="topnav-left">
+    <!--NAVBAR BUTTON-->
+<a onclick="openNav()" class="navbutton">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="auto" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+    </svg>
+</a>
+<a class="active" href="/">Accueil</a>
+<a href="#about" class="inactive" >Nouveautés</a>
+<a href="#contact" class="inactive" >Logged as {{session['username']}}</a>
+</div>
+{% endblock %}
+
+<!--Indicates current page for login-->
+{% block currentPage %}
+<input type="hidden" name="current" value="index"></span>
+{% endblock %}
+
+{% block contenu2 %}
+<h1 style="color:red; text-align: center;">{{ msg }}</h1>
+
+<div class="logdiv">
+    <form action="/signup" method="POST">
+        <input type="hidden" name="current" value="index"></span>
+        <h2>SIGN UP</h2>
+        <div class="field">
+            <label>USERNAME</label>
+            <input type="text" name="username" placeholder="Enter your username">
+        </div>
+        <div class="field">
+            <label>E-mail</label>
+            <input type="text" name="mail" placeholder="Enter your e-mail">
+        </div>
+        <div class="field">
+            <label>PASSWORD</label>
+            <input type="text" name="password" placeholder="Enter your password">
+        </div>
+        
+        <div>
+            <input type="submit" value="SIGN UP">
+        </div>
+        
+    </form>
+</div>
+{% endblock %}
+
+

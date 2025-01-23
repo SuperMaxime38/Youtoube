@@ -30,8 +30,23 @@
 {% endblock %}
 
 {% block contenu2 %}
-<div class="content">
-    <p>Login stuff</p>
+<div class="logdiv">
+    <form action="/login" method="POST">
+        <h2>LOGIN</h2>
+        <div class="field">
+            <label>USERNAME</label>
+            <input type="text" name="login" placeholder="Enter your username">
+        </div>
+        <div class="field">
+            <label>PASSWORD</label>
+            <input type="text" name="password" placeholder="Enter your password">
+        </div>
+        
+        <div>
+            <input type="submit" value="LOGIN">
+        </div>
+        
+    </form>
 </div>
 {% endblock %}
 

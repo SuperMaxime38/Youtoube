@@ -1,1 +1,1 @@
-from .model import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, getVideoTable, db_identification, comment_update
+from .model import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, getVideoTable, db_identification, comment_update, addUser

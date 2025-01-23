@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request, redirect, session
-from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, db_identification, comment_update
+from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, db_identification, comment_update, addUser
 app = Flask(__name__)
 import uuid
 
@@ -51,7 +51,7 @@ def search():
         query = session['query']
     return render_template('search.html', videos = videos, query = query)
 
-@app.route("/login", methods=['POST'])
+@app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         print('request: ', request.form)
@@ -66,6 +66,8 @@ def login():
 
             if nextURL == 'video':
                 return redirect(url_for('video'), video = session['watching'])
+            if nextURL == 'search':
+                return redirect(url_for('search'), query = session['query'])
             
             return redirect(url_for(nextURL)) #renvoie sur la route '/'
         
@@ -85,3 +87,30 @@ def comment():
             comment_update(comment_id, video, pseudo, texte)
             return redirect(url_for('video', video = video))
             
+
+@app.route("/signup", methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        result = request.form
+        username = result['username']
+        mail = result['mail']
+        password = result['password']
+        userID = str(uuid.uuid4())
+        success = addUser(userID, username, mail, password)
+
+
+        msg = "This email has been already used"
+        if not success:
+            return redirect(url_for('signup', msg = msg))
+        nextURL = result['current']
+        if nextURL == 'video':
+            return redirect(url_for('video'), video = session['watching'])
+        if nextURL == 'search':
+            return redirect(url_for('search'), query = session['query'])
+
+        return redirect(url_for('index'))
+    
+    message = request.args.get('msg')
+    if message is None:
+        message = ""
+    return render_template('signup.html', msg = message)

@@ -279,13 +279,13 @@ video {
   background-color: #dadada;
 }
 
-.popup div.divclose {
+div.divclose {
   float: right;
   margin-top: -20px;
   margin-right: 6px;
 }
 
-.popup div.logdiv {
+div.logdiv {
   margin-top: 30px;
   text-align: center;
 }
@@ -303,14 +303,14 @@ video {
   align-items: center;
 }
 
-.popup form div.field {
+form div.field {
   border: 2px solid black;
   background-color: rgb(216, 210, 210);
   margin-bottom: 30px;
   padding: 15px;
 }
 
-.popup form div input {
+form div input {
   margin: 10px;
   width: 95%;
   height: 50px;
