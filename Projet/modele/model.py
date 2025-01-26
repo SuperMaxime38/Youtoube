@@ -116,3 +116,25 @@ def addUser(uuid, pseudo, mail, passwrd):
     cnx.commit()
     cnx.close()
     return True
+
+
+def getUser(uuid):
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    cur.execute("SELECT * FROM Utilisateurs WHERE userID = ?", (uuid,))
+    rows = cur.fetchall()
+    cnx.close()
+    return rows[0] # retourne UN tuple (sinon renvoie une liste de 1 tuple donc c'est useless)
+
+def changePassword(uuid, passwrd):
+    password = hashlib.sha256()
+    password.update(bytes(passwrd, 'utf-8'))
+
+    print("old psswrd: ", password.hexdigest())
+    print("uid: ", uuid)
+
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    cur.execute("UPDATE Utilisateurs SET password = ? WHERE userID = ?", (password.hexdigest(), uuid))
+    cnx.commit()
+    cnx.close()

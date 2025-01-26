@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block contenu0 %}
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    {% if isLogged %}
+    <a href="/account" >Mon&#160;compte</a>
+    {% else %}
+    <a href="javascript:void(0)" onclick="openLoginScreen()">Mon&#160;compte</a>
+    {% endif %}
+    <a href="#">Mes&#160;vidéos</a>
+    <a href="#">Historique</a>
+    <a href="/logout">Se&#160;déconnecter</a>
+</div>
+{% endblock %}
+
+{% block contenu1 %}
+<div class="topnav-left">
+    <!--NAVBAR BUTTON-->
+<a onclick="openNav()" class="navbutton">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="auto" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+    </svg>
+</a>
+<a class="active" href="/">Accueil</a>
+<a href="#about" class="inactive" >Nouveautés</a>
+<a href="#contact" class="inactive" >Lorem</a>
+</div>
+{% endblock %}
+
+<!--Indicates current page for login-->
+{% block currentPage %}
+<input type="hidden" name="current" value="account"></span>
+{% endblock %}
+
+{% block contenu2 %}
+<div class="account">
+    <h1>{{user[2]}}'s Profile</h1>
+    <br>
+    <h2>Mes informations</h2>
+    <h3>E-mail</h3>
+    <h5>{{user[1]}}</h4>
+    {% if color == "green" %}
+    <h2 style="color:green;">{{msg}}</h2>
+    {% else %}
+    <h2 style="color:red;">{{msg}}</h2>
+    {% endif %}
+    <h3>Change password</h3>
+    <form action="/change/password", method="POST" class="changePassword">
+        <input type="text" name="password" placeholder="Current password">
+        <input type="text" name="new_password" placeholder="New password">
+        <input type="text" name="new_password_confirm" placeholder="Confirm new password">
+        <br>
+        <input type="submit" value="Update password">
+    </form>
+</div>
+{% endblock %}

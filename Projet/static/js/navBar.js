@@ -64,6 +64,7 @@ function openLoginScreen() {
   if(isLoginScreenOpen){
       closeLoginScreen();
       isLoginScreenOpen = false;
+      accessAccount();
   } else {
     // Set the height of the popup to 800px
     document.getElementById("myPopup").style.height = "600px";

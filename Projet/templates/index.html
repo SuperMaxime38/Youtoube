@@ -3,10 +3,14 @@
 {% block contenu0 %}
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="javascript:void(0)" onclick="openLoginScreen()">Mon&#160;compte</a>
+    {% if isLogged %}
+    <a href="/account" >Mon&#160;compte</a>
     <a href="#">Mes&#160;vidéos</a>
     <a href="#">Historique</a>
     <a href="/logout">Se&#160;déconnecter</a>
+    {% else %}
+    <a href="javascript:void(0)" onclick="openLoginScreen()">Se connecter</a>
+    {% endif %}
 </div>
 {% endblock %}
 
