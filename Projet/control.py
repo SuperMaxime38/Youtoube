@@ -9,11 +9,15 @@ app.config.from_pyfile('config.py')
 @app.route('/')
 def index():
     videos = getTopVideos()
+<<<<<<< Updated upstream
     isLogged = False
     if('ID' in session):
         isLogged = True
     
     return render_template('index.html', videos = videos, isLogged = isLogged)
+=======
+    return render_template('index.html', videos = videos)
+>>>>>>> Stashed changes
 @app.route('/afficher/livre/')
 def afficher_livre():
     liste_livre = selectionner_livre()
@@ -54,12 +58,15 @@ def search():
         videos = session['videos']
         query = session['query']
 
+<<<<<<< Updated upstream
     isLogged = False
     if('ID' in session):
         isLogged = True
 
     return render_template('search.html', videos = videos, query = query, isLogged = isLogged)
 
+=======
+>>>>>>> Stashed changes
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
