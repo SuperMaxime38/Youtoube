@@ -1,4 +1,4 @@
-import sqlite3, hashlib
+import sqlite3, hashlib, time
 def ouvrir_connexion():
     cnx = None
     try:
@@ -138,3 +138,53 @@ def changePassword(uuid, passwrd):
     cur.execute("UPDATE Utilisateurs SET password = ? WHERE userID = ?", (password.hexdigest(), uuid))
     cnx.commit()
     cnx.close()
+
+def handleView(videoID, userID):
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    cur.execute("SELECT * FROM Historique WHERE userID = ? AND videoID = ?", (userID, videoID))
+    rows = cur.fetchall()
+
+    
+    date = time.time()
+    if len(rows) == 0:
+        cur.execute("INSERT INTO Historique VALUES (?, ?, ?, ?)", (userID, videoID, date, False))
+        cnx.commit()
+        cnx.close()
+    else:
+        cur.execute("UPDATE Historique SET date = ? WHERE userID = ? AND videoID = ?", (date, userID, videoID))
+        cnx.commit()
+        cnx.close()
+    
+    return rows
+
+def likeVideo(videoID, userID):
+    vid = handleView(videoID, userID)
+
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+
+    isVidLiked = False
+    if vid[0][3] == False: # Si la vidéo n'est pas likée
+        
+        cur.execute("UPDATE Historique SET like = ? WHERE userID = ? AND videoID = ?", (True, userID, videoID))
+        isVidLiked = True
+    else:
+        cur.execute("UPDATE Historique SET like = ? WHERE userID = ? AND videoID = ?", (False, userID, videoID))
+    
+    cnx.commit()
+    cnx.close()
+    return isVidLiked
+
+
+def isVideoLiked(videID, userID):
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    cur.execute("SELECT * FROM Historique WHERE userID = ? AND videoID = ?", (userID, videID))
+    rows = cur.fetchall()
+    cnx.close()
+
+    if len(rows) == 0:
+        return False
+
+    return rows[0][3]

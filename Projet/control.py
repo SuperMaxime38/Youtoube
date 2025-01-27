@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request, redirect, session
-from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, db_identification, comment_update, addUser, getUser, changePassword
+from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked
 app = Flask(__name__)
 import uuid
 
@@ -34,14 +34,43 @@ def enregistrer_livre():
 
 @app.route("/video", methods=['POST', 'GET'])
 def video():
+    isLiked = False
     if request.method == 'POST':
         result = request.form
         id = result['video']
         video = getVideo(id)
         session['watching'] = video
     else:
-        video = session['watching'] 
-    return render_template('displayVid.html', video = video)
+        video = session['watching']
+        isLiked = request.args.get('liked')
+
+    if ('ID' in session): #If logged, should add video into 'Historique'
+        handleView(video[0], session['ID'])
+        isLiked = isVideoLiked(id, session['ID'])
+        
+    if isLiked is None:
+        isLiked = False
+    
+    return render_template('displayVid.html', video = video, isLiked = isLiked)
+
+
+@app.route("/video/like", methods=['GET','POST'])
+def like():
+    if request.method == 'POST':
+        result = request.form
+        id = result['videoID']
+
+        if 'ID' in session:
+            userID = session['ID']
+            isLiked = likeVideo(id, userID)
+
+            return redirect(url_for('video', liked = isLiked))
+        
+        #Si pas log va dans page de connexion
+        return redirect(url_for('login'))
+
+    #Si request pas POST, bah redirige vers index
+    return redirect(url_for('index')) 
 
 @app.route("/search", methods=['GET', 'POST'])
 def search():
