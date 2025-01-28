@@ -145,7 +145,7 @@ def handleView(videoID, userID):
     cur.execute("SELECT * FROM Historique WHERE userID = ? AND videoID = ?", (userID, videoID))
     rows = cur.fetchall()
 
-    
+    print("if it exists it's printed here", rows)
     date = time.time()
     if len(rows) == 0:
         cur.execute("INSERT INTO Historique VALUES (?, ?, ?, ?)", (userID, videoID, date, False))
