@@ -188,3 +188,11 @@ def isVideoLiked(videID, userID):
         return False
 
     return rows[0][3]
+
+def getComments(id):
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    cur.execute("SELECT* FROM Commentaires WHERE id_video = ?", (id,))
+    rows = cur.fetchall()
+    cnx.close()
+    return rows

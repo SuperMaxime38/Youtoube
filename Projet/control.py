@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request, redirect, session
-from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked
+from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked, getComments
 app = Flask(__name__)
 import uuid
 
@@ -46,12 +46,15 @@ def video():
 
     if ('ID' in session): #If logged, should add video into 'Historique'
         handleView(video[0], session['ID'])
-        isLiked = isVideoLiked(id, session['ID'])
+        #isLiked = isVideoLiked(id, session['ID'])
         
     if isLiked is None:
         isLiked = False
+
+    video_id = video[0]
+    comments = getComments(video_id)
     
-    return render_template('displayVid.html', video = video, isLiked = isLiked)
+    return render_template('displayVid.html', video = video, isLiked = False, comments = comments)
 
 
 @app.route("/video/like", methods=['GET','POST'])
@@ -171,7 +174,7 @@ def change_password():
 def comment():
     if request.method == 'POST':
         if 'ID' not in session:
-            return redirect(url_for('index'))
+            return redirect(url_for('login'))
         else:
             video = session['watching']
             texte = request.form['story']
