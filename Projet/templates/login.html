@@ -32,6 +32,11 @@
 {% block contenu2 %}
 <div class="logdiv">
     <form action="/login" method="POST">
+        {% if nextURL == "video" %}
+        <input type="hidden" name="current" value="video">
+        {% else %}
+        <input type="hidden" name="current" value="index">
+        {% endif %}
         <h2>LOGIN</h2>
         <div class="field">
             <label>USERNAME</label>

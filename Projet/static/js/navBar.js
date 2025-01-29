@@ -11,7 +11,6 @@
     
     function openNav() {
       if(isNavOpen){
-        console.log("close");
           closeNav();
           isNavOpen = false;
       } else {
@@ -37,17 +36,10 @@ let isNavOpen2 = false;
  * Opens it if it's closed, and closes it if it's open.
  */
 function openNav2() {
-  console.log('Hey this is clicked !');
-  if (isNavOpen2) {
-    console.log("close");
-    closeNav2();
-    isNavOpen2 = false;
-  } else {
-    // Display the side navigation bar
-    document.getElementById("mySidenav").style.display = "block";
-    document.getElementById("main").style.marginLeft = "5%";
-    isNavOpen2 = true;
-  }
+  // Display the side navigation bar
+  document.getElementById("mySidenav").style.display = "block";
+  document.getElementById("main").style.marginLeft = "5%";
+  isNavOpen2 = true;
 }
 
 /* Close/hide the sidenav */

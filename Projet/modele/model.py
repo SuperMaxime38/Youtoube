@@ -148,14 +148,15 @@ def handleView(videoID, userID):
     print("if it exists it's printed here", rows)
     date = time.time()
     if len(rows) == 0:
-        cur.execute("INSERT INTO Historique VALUES (?, ?, ?, ?)", (userID, videoID, date, False))
+        cur.execute("INSERT INTO Historique VALUES (?, ?, ?, ?)", (videoID, userID, date, False))
         cnx.commit()
-        cnx.close()
     else:
         cur.execute("UPDATE Historique SET date = ? WHERE userID = ? AND videoID = ?", (date, userID, videoID))
         cnx.commit()
-        cnx.close()
     
+    cur.execute("SELECT * FROM Historique WHERE userID = ? AND videoID = ?", (userID, videoID))
+    rows = cur.fetchall()
+    cnx.close()
     return rows
 
 def likeVideo(videoID, userID):
@@ -165,6 +166,7 @@ def likeVideo(videoID, userID):
     cur = cnx.cursor()
 
     isVidLiked = False
+    print(vid)
     if vid[0][3] == False: # Si la vidéo n'est pas likée
         
         cur.execute("UPDATE Historique SET like = ? WHERE userID = ? AND videoID = ?", (True, userID, videoID))

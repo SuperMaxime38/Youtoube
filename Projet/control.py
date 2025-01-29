@@ -44,9 +44,11 @@ def video():
         video = session['watching']
         isLiked = request.args.get('liked')
 
+    isLogged = False
     if ('ID' in session): #If logged, should add video into 'Historique'
         handleView(video[0], session['ID'])
-        #isLiked = isVideoLiked(id, session['ID'])
+        isLiked = isVideoLiked(video[0], session['ID'])
+        isLogged = True
         
     if isLiked is None:
         isLiked = False
@@ -54,7 +56,7 @@ def video():
     video_id = video[0]
     comments = getComments(video_id)
     
-    return render_template('displayVid.html', video = video, isLiked = False, comments = comments)
+    return render_template('displayVid.html', video = video, isLiked = isLiked, comments = comments, isLogged = isLogged)
 
 
 @app.route("/video/like", methods=['GET','POST'])
@@ -63,6 +65,8 @@ def like():
         result = request.form
         id = result['videoID']
 
+        print("vid id:", id)
+
         if 'ID' in session:
             userID = session['ID']
             isLiked = likeVideo(id, userID)
@@ -70,7 +74,7 @@ def like():
             return redirect(url_for('video', liked = isLiked))
         
         #Si pas log va dans page de connexion
-        return redirect(url_for('login'))
+        return redirect(url_for('login', nextURL = 'video'))
 
     #Si request pas POST, bah redirige vers index
     return redirect(url_for('index')) 
@@ -109,14 +113,19 @@ def login():
             session['username'] = rows[0][2]
 
             if nextURL == 'video':
-                return redirect(url_for('video'), video = session['watching'])
+                return redirect(url_for('video', video = session['watching']))
             if nextURL == 'search':
-                return redirect(url_for('search'), query = session['query'])
+                return redirect(url_for('search', query = session['query']))
             
             return redirect(url_for(nextURL)) #renvoie sur la route '/'
         
+    else: #IF request is GET
+        nextURL="index"
+        if 'nextURL' in request.args:
+            nextURL = request.args['nextURL']
+
     # DO A LOGIN PAGE
-    return render_template('login.html')
+    return render_template('login.html', nextURL = nextURL)
 
 
 @app.route("/logout")
