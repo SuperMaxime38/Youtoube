@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request, redirect, session
-from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked, getComments
+from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked, getComments, countLikes, countViews
 app = Flask(__name__)
 import uuid
 
@@ -55,8 +55,10 @@ def video():
 
     video_id = video[0]
     comments = getComments(video_id)
+    likes = countLikes(video_id)
+    views = countViews(video_id)
     
-    return render_template('displayVid.html', video = video, isLiked = isLiked, comments = comments, isLogged = isLogged)
+    return render_template('displayVid.html', video = video, isLiked = isLiked, comments = comments, isLogged = isLogged, likes = likes, views = views)
 
 
 @app.route("/video/like", methods=['GET','POST'])

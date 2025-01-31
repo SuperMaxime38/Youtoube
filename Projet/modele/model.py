@@ -198,3 +198,28 @@ def getComments(id):
     rows = cur.fetchall()
     cnx.close()
     return rows
+
+def countViews(videoID):
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    cur.execute("SELECT COUNT(*) FROM Historique WHERE videoID=?", (videoID,))
+    rows = cur.fetchall()
+    cnx.close()
+
+    if len(rows) == 0:
+        return 0
+
+    return rows[0][0] # ya qu'un élément qui est le nombre de vues
+
+def countLikes(videoID):
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    cur.execute("SELECT COUNT(*) FROM Historique WHERE videoID=? and like = 1", (videoID,))
+    rows = cur.fetchall()
+    cnx.close()
+
+    
+    if len(rows) == 0:
+        return 0
+
+    return rows[0][0] # ya qu'un élément qui est le nombre de likes

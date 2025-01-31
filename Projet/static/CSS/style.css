@@ -326,6 +326,14 @@ form div input {
   font-size: 75px;
 }
 
+.likesButton {
+  align-items: center;
+  display: flex;
+  justify-content: right;
+  text-align: right;
+  width: 5%;
+}
+
 /* mon css MAXIME NE TOUCHE RIEN C'EST LE BAZAR !! */
 
 .popupComments {
