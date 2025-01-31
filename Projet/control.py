@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request, redirect, session
-from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked, getComments, countLikes, countViews
+from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked, getComments, countLikes, countViews, updateViews
 app = Flask(__name__)
 import uuid
 
@@ -57,8 +57,9 @@ def video():
     comments = getComments(video_id)
     likes = countLikes(video_id)
     views = countViews(video_id)
+    updateViews(video_id)
     
-    return render_template('displayVid.html', video = video, isLiked = isLiked, comments = comments, isLogged = isLogged, likes = likes, views = views)
+    return render_template('displayVid.html', video = video, isLiked = isLiked, comments = comments, isLogged = isLogged, likes = likes, views = views, autresvideos = getTopVideos())
 
 
 @app.route("/video/like", methods=['GET','POST'])
@@ -100,6 +101,9 @@ def search():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+
+    message = ""
+
     if request.method == 'POST':
         print('request: ', request.form)
         resultat = request.form
@@ -120,14 +124,19 @@ def login():
                 return redirect(url_for('search', query = session['query']))
             
             return redirect(url_for(nextURL)) #renvoie sur la route '/'
+
+        message = "User not found or wrong password"
         
+    
     else: #IF request is GET
         nextURL="index"
         if 'nextURL' in request.args:
             nextURL = request.args['nextURL']
+        if 'error' in request.args:
+            message = request.args['error']
 
     # DO A LOGIN PAGE
-    return render_template('login.html', nextURL = nextURL)
+    return render_template('login.html', nextURL = nextURL, message = message)
 
 
 @app.route("/logout")

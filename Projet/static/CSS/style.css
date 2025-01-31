@@ -231,8 +231,8 @@ video {
 
 .autresvideos {
   border: 1px solid yellow;
-  width: 100%;
-  height: 960px;
+  width: 97.5%;
+  height: 1140px;
   overflow-y: scroll;
   scrollbar-color:  rgb(72, 72, 72) rgb(190, 190, 190);
   scrollbar-width: thin;
@@ -242,17 +242,32 @@ video {
   text-align: center;
 }
 
-.autresvideos tr td {
-  border: 1px solid green;
-  width: 100%;
-  height: auto;
-}
-
 .autresvideos-liste {
   display: flex;
   justify-content: left;
   border: 1px solid red;
+}
+
+.autresvideos p {
+  width: 100%;
+}
+.autresvideos p.desc {
+  width: 100%;
+}
+
+.autresvideos div {
+  margin-bottom: 10px;
   width: 99%;
+}
+
+.autresvideos-liste button {
+  width: 100%;
+  height: auto;
+  text-align: left;
+}
+
+.autresvideos-liste div {
+  width: 55%;
 }
 
 /* CODE CSS DU LOGIN SCREEN (watch out a pas tt casser plz) */

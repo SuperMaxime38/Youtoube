@@ -87,21 +87,25 @@
         <!--VIDEOS SIMILAIRES-->
         <div class="autresvideos">
           <h2>D'autres vidéos que vous pourriez aimer</h2>
+          {% for row in autresvideos %}
+          {% for vid in row %}
           <div>
             <form action="/video" method="POST" id="videoform">
               <div class="autresvideos-liste">
-                <button type="submit" name="video" value="{{video[0]}}"><video name="vid" src="{{video[2]}}"  id="{{video[0]}}"></video></button>
+                <button type="submit" name="video" value="{{vid[0]}}"><video name="vid" src="{{vid[2]}}"  id="{{vid[0]}}"></video></button>
                 <div>
-                  <h3>{{ video[3] }}</h3>
-                  <p>{{video[1]}}</p>
-                  <p>{{video[4]}} views</p>
+                  <h3>{{ vid[3] }}</h3>
+                  <p>{{vid[1]}}</p>
+                  <p>{{vid[4]}} views</p>
 
                 </div>
-              
+              <p class="desc">{{vid[5]}}</p>
               </div>
               
             </form>
           </div>
+          {% endfor %}
+          {% endfor %}
         </div>
       </td>
     </tr>

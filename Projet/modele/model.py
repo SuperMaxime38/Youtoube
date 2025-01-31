@@ -211,6 +211,15 @@ def countViews(videoID):
 
     return rows[0][0] # ya qu'un élément qui est le nombre de vues
 
+
+def updateViews(videoID):
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    views = countViews(videoID)
+    cur.execute("UPDATE Videos SET views = ? WHERE id = ?", (views, videoID))
+    cnx.commit()
+    cnx.close()
+
 def countLikes(videoID):
     cnx = ouvrir_connexion()
     cur = cnx.cursor()

@@ -31,6 +31,7 @@
 
 {% block contenu2 %}
 <div class="logdiv">
+    <p style="color:red;">{{message}}</p>
     <form action="/login" method="POST">
         {% if nextURL == "video" %}
         <input type="hidden" name="current" value="video">
