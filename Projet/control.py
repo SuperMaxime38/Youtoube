@@ -26,7 +26,8 @@ def video():
         session['watching'] = video
     else:
         if 'video' in request.args:
-            video = request.args.get('video')
+            id = request.args.get('video')
+            video = getVideo(id)
         elif 'watching' in session:
             video = session['watching']
         else:
@@ -44,6 +45,7 @@ def video():
 
     video_id = video[0]
     comments = getComments(video_id)
+
     likes = countLikes(video_id)
     views = countViews(video_id)
     updateViews(video_id)
@@ -192,7 +194,7 @@ def comment():
             pseudo = session['username']
             comment_id = str(uuid.uuid4())
             comment_update(comment_id, video, pseudo, texte)
-            return redirect(url_for('video', video = video))
+            return redirect(url_for('video', video = video[0]))
             
 
 @app.route("/signup", methods=['GET', 'POST'])

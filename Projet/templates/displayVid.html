@@ -81,9 +81,16 @@
             <a href="javascript:void(0)" onclick="openComments()">comments</a>
 			      <div id="myComments" class="popupComments">
               <a href="javascript:void(0)" class="closebtn" onclick="closeComments()">&times;</a>
-              {% for comment in comments %}
-              <p>{{comment[3]}}</p>
-              {% endfor %}
+              <table>
+                <thead>
+                  {% for comment in comments %}
+                  <tr>
+                    <th scope="col">{{comment[2]}}</th>
+                    <th scope="col">{{comment[3]}}</th>
+                  </tr>
+                  {% endfor %}
+                </thead>
+              </table>
             </div>
           </div>
 
