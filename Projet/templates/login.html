@@ -34,11 +34,8 @@
 <div class="logdiv">
     <p style="color:red;">{{message}}</p>
     <form action="/login" method="POST">
-        {% if nextURL == "video" %}
-        <input type="hidden" name="current" value="video">
-        {% else %}
-        <input type="hidden" name="current" value="index">
-        {% endif %}
+        
+        <input type="hidden" name="current" value="{{nextURL}}">
         <h2>LOGIN</h2>
         <div class="field">
             <label>USERNAME</label>
@@ -54,6 +51,9 @@
         </div>
         
     </form>
+    <div>
+        <label>Don't have an account ? <a href="/signup">SIGN UP</a></label>
+    </div>
 </div>
 {% endblock %}
 

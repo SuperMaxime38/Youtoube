@@ -6,12 +6,12 @@
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     {% if isLogged %}
     <a href="/account" >Mon&#160;compte</a>
-    {% else %}
-    <a href="javascript:void(0)" onclick="openLoginScreen()">Mon&#160;compte</a>
-    {% endif %}
     <a href="#">Mes&#160;vidéos</a>
     <a href="#">Historique</a>
     <a href="/logout">Se&#160;déconnecter</a>
+    {% else %}
+    <a href="javascript:void(0)" onclick="openLoginScreen()">Se connecter</a>
+    {% endif %}
 </div>
 {% endblock %}
 
@@ -42,7 +42,11 @@
         <tr>
             <td>
                 <form action="/video" method="POST" id="videoform">
-                <button type="submit" name="video" value="{{video[0]}}"><video name="vid" src="{{video[2]}}"  id="{{video[0]}}"></video></button>
+                <button type="submit" name="video" value="{{video[0]}}" class="minia">
+                    <video name="vid"  id="{{video[0]}}">
+                        <source src="{{url_for('static', filename=video[2])}}" type="video/mp4">
+                    </video>
+                </button>
                 <h3>{{ video[3] }}</h3>
                 <div class="datas">
                     <p>{{video[1]}}</p>

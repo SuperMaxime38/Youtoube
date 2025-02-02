@@ -232,3 +232,11 @@ def countLikes(videoID):
         return 0
 
     return rows[0][0] # ya qu'un élément qui est le nombre de likes
+
+
+def uploadVideo(videoID, author, url, title, description, userID):
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    cur.execute("INSERT INTO Videos VALUES (?, ?, ?, ?, ?, ?, ?)", (videoID, author, url, title, 0, description, userID))
+    cnx.commit()
+    cnx.close()

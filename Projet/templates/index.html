@@ -43,7 +43,11 @@
             {% for video in row %}
             <td class="minia">
                 <form action="/video" method="POST" id="videoform">
-                    <button type="submit" name="video" value="{{video[0]}}"><video name="vid" src="{{video[2]}}"  id="{{video[0]}}"></video></button>
+                    <button type="submit" name="video" value="{{video[0]}}">
+                        <video name="vid"  id="{{video[0]}}">
+                            <source src="{{url_for('static', filename=video[2])}}" type="video/mp4">
+                        </video>
+                    </button>
                     <h3>{{ video[3] }}</h3>
                     <div class="datas">
                         <p>{{video[1]}}</p>

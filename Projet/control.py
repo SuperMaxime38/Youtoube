@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, request, redirect, session
-from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked, getComments, countLikes, countViews, updateViews
+from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked, getComments, countLikes, countViews, updateViews, uploadVideo
+import uuid,os
 app = Flask(__name__)
-import uuid
 
 # Config options - Make sure you created a 'config.py' file.
 app.config.from_pyfile('config.py')
@@ -14,22 +14,6 @@ def index():
         isLogged = True
     
     return render_template('index.html', videos = videos, isLogged = isLogged)
-@app.route('/afficher/livre/')
-def afficher_livre():
-    liste_livre = selectionner_livre()
-    return render_template('affiche_livre.html', liste_des_livres = liste_livre)
-@app.route('/ajouter/livre/')
-def ajouter_livre():
-    return render_template('ajouter_livre.html')
-
-
-@app.route('/admin/enregistrer/livre', methods=['POST'])
-def enregistrer_livre():
-    print("test !")
-    resultat = request.form #permet de récupérer les données POST
-    #sous forme d'un dictionnaire resultat
-    mettre_a_jour_table_livre(resultat) #appel le modèle à utiliser
-    return redirect(url_for('index'))
 
 
 @app.route("/video", methods=['POST', 'GET'])
@@ -41,7 +25,12 @@ def video():
         video = getVideo(id)
         session['watching'] = video
     else:
-        video = session['watching']
+        if 'video' in request.args:
+            video = request.args.get('video')
+        elif 'watching' in session:
+            video = session['watching']
+        else:
+            redirect(url_for('index'))
         isLiked = request.args.get('liked')
 
     isLogged = False
@@ -104,6 +93,9 @@ def login():
 
     message = ""
 
+    if 'ID' in session:
+        return redirect(url_for('index'))
+
     if request.method == 'POST':
         print('request: ', request.form)
         resultat = request.form
@@ -122,8 +114,7 @@ def login():
                 return redirect(url_for('video', video = session['watching']))
             if nextURL == 'search':
                 return redirect(url_for('search', query = session['query']))
-            
-            return redirect(url_for(nextURL)) #renvoie sur la route '/'
+            return redirect(url_for(nextURL))
 
         message = "User not found or wrong password"
         
@@ -219,6 +210,12 @@ def signup():
         if not success:
             return redirect(url_for('signup', msg = msg))
         nextURL = result['current']
+
+
+        #Log in
+        session['ID'] = userID
+        session['username'] = username
+
         if nextURL == 'video':
             return redirect(url_for('video'), video = session['watching'])
         if nextURL == 'search':
@@ -230,3 +227,48 @@ def signup():
     if message is None:
         message = ""
     return render_template('signup.html', msg = message)
+
+# UPLOAD Files stuff
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+
+@app.route("/upload", methods=['GET', 'POST'])
+def upload():
+    
+    if 'ID' not in session:
+        return redirect(url_for('login', nextURL = 'upload'))
+
+    message = ""
+
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            message = "No file part"
+            return redirect(request.url)
+        file = request.files['file']
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        if file.filename == '':
+            message = "No selected file"
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+
+            videoID = str(uuid.uuid4())
+
+            extension = file.filename.rsplit('.', 1)[1].lower()
+            filename = videoID + '.' + extension
+            path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(path)
+
+            # save the video in DB
+            userID = session['ID']
+            author = session['username']
+            url = "videos/" + filename
+            title = request.form['title']
+            description = request.form['description']
+
+            uploadVideo(videoID, author, url, title, description, userID)
+
+            return redirect(url_for('index'))
+    return render_template('uploadVideo.html', message = message)

@@ -1,1 +1,1 @@
-from .model import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, getVideoTable, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked, getComments, countLikes, countViews, updateViews
+from .model import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, getVideoTable, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked, getComments, countLikes, countViews, updateViews, uploadVideo

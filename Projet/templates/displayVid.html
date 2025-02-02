@@ -39,7 +39,11 @@
   <table class="videopage">
     <tr>
       <td class="main">
-          <video src="{{video[2]}}" controls id="{{video[0]}}"></video>
+          <video controls id="{{video[0]}}">
+
+            <source src="{{url_for('static', filename=video[2])}}" type="video/mp4">
+
+          </video>
           <div class="video-info">
             <h2>{{video[3]}}</h2>
             <h3>{{video[1]}}</h3>
@@ -93,7 +97,11 @@
           <div>
             <form action="/video" method="POST" id="videoform">
               <div class="autresvideos-liste">
-                <button type="submit" name="video" value="{{vid[0]}}"><video name="vid" src="{{vid[2]}}"  id="{{vid[0]}}"></video></button>
+                <button type="submit" name="video" value="{{vid[0]}}">
+                  <video name="vid"  id="{{vid[0]}}">
+                    <source src="{{url_for('static', filename=vid[2])}}" type="video/mp4">
+                  </video>
+                </button>
                 <div>
                   <h3>{{ vid[3] }}</h3>
                   <p>{{vid[1]}}</p>
