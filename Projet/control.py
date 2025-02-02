@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request, redirect, session
-from .modele import selectionner_livre, mettre_a_jour_table_livre, getTopVideos, getVideo, research, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked, getComments, countLikes, countViews, updateViews, uploadVideo
+from .modele import getTopVideos, getVideo, research, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked, getComments, countLikes, countViews, updateViews, uploadVideo, getVideosByUser, getVideosHistory
 import uuid,os
 app = Flask(__name__)
 
@@ -274,3 +274,24 @@ def upload():
 
             return redirect(url_for('index'))
     return render_template('uploadVideo.html', message = message)
+
+
+#Profile related stuff
+@app.route("/my/videos", methods=['GET', 'POST'])
+def my_videos():
+    if 'ID' not in session:
+        return redirect(url_for('login', nextURL="my_videos"))
+    else:
+        userID = session['ID']
+        videos = getVideosByUser(userID)
+        return render_template('myVideos.html', videos = videos)
+    
+@app.route("/history", methods=['GET', 'POST'])
+def history():
+    if 'ID' not in session:
+        return redirect(url_for('login', nextURL="history"))
+    
+    userID = session['ID']
+    videos = getVideosHistory(userID)
+    print('histry: ', videos)
+    return render_template('history.html', videos = videos)

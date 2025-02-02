@@ -146,7 +146,8 @@ def handleView(videoID, userID):
     rows = cur.fetchall()
 
     print("if it exists it's printed here", rows)
-    date = time.time()
+    date = time.time()//1
+
     if len(rows) == 0:
         cur.execute("INSERT INTO Historique VALUES (?, ?, ?, ?)", (videoID, userID, date, False))
         cnx.commit()
@@ -240,3 +241,33 @@ def uploadVideo(videoID, author, url, title, description, userID):
     cur.execute("INSERT INTO Videos VALUES (?, ?, ?, ?, ?, ?, ?)", (videoID, author, url, title, 0, description, userID))
     cnx.commit()
     cnx.close()
+
+def deleteVideo(videoID):
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    cur.execute("DELETE FROM Videos WHERE id = ?", (videoID,))
+    cnx.commit()
+    cnx.close()
+
+def getVideosByUser(userID):
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    cur.execute("SELECT * FROM Videos WHERE userID = ?", (userID,))
+    rows = cur.fetchall()
+    cnx.close()
+    return rows
+
+def getVideosHistory(userID):
+    """
+    gets the video locations
+    """
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    cur.execute("SELECT videoID FROM Historique WHERE userID = ? ORDER BY CAST(\"DATE\" AS INTEGER) DESC;", (userID,))
+    rows = cur.fetchall()[0]
+    cnx.close()
+
+    result = []
+    for row in rows:
+        result.append(getVideo(row))
+    return result

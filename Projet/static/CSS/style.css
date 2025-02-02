@@ -367,12 +367,11 @@ form div input {
   display:none;
 }
 
-label,
-textarea {
+.comments form label, textarea {
   letter-spacing: 1px;
 }
 
-textarea {
+.comments form textarea {
   padding: 10px;
   max-width: 100%;
   line-height: 1.5;
@@ -380,7 +379,7 @@ textarea {
   border: 1px solid #ccc;
 }
 
-label {
+.comments form label {
   display: block;
   margin-bottom: 10px;
 }
@@ -401,7 +400,7 @@ label {
   margin-left: 45px;
 }
 
-table {
+.comments div table {
   border-collapse: collapse;
   border: 2px solid rgb(255, 255, 255);
   font-family: sans-serif;
@@ -411,7 +410,11 @@ table {
   justify-content: center;
 }
 
-th {
+.comments div table thead tr th {
   border: 1px solid rgb(160 160 160);
   padding: 3% 100px;
+}
+
+.history table {
+  width: 100%;
 }
