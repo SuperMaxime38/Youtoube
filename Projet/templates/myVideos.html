@@ -32,7 +32,8 @@
 
 {% block contenu2 %}
 <div class="myVideos">
-    <p>Page is under development</p>
+    <div>
+        <h2>Mes vidéos</h2>
     <table>
         {% for video in videos %}
         <tr>
@@ -55,7 +56,22 @@
         {% endfor %}
             
     </table>
+    </div>
+    <div class="upload">
+        <h2>POSTER UNE NOUVELLE VIDÉO</h2>
+        <div>
+            <form method=post action="../upload" enctype=multipart/form-data>
+                <label>Title:</label>
+                <input type="text" name="title">
+                <label>Description:</label>
+                <textarea type="text" name="description" cols="100" rows="16"></textarea>
+              <input type=file name=file>
+              <input type=submit value="POSTER">
+            </form>
+        </div>
+    </div>
 </div>
+
 {% endblock %}
 
 

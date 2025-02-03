@@ -247,13 +247,13 @@ def upload():
         # check if the post request has the file part
         if 'file' not in request.files:
             message = "No file part"
-            return redirect(request.url)
+            return redirect(url_for('upload'), message = message)
         file = request.files['file']
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
         if file.filename == '':
             message = "No selected file"
-            return redirect(request.url)
+            return redirect(url_for('upload'), message = message)
         if file and allowed_file(file.filename):
 
             videoID = str(uuid.uuid4())
@@ -272,7 +272,8 @@ def upload():
 
             uploadVideo(videoID, author, url, title, description, userID)
 
-            return redirect(url_for('index'))
+            return redirect(url_for('index'))    
+    
     return render_template('uploadVideo.html', message = message)
 
 
