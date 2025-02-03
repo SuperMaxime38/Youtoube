@@ -80,17 +80,18 @@
             <!--POPUP DU Commentaire-->
             <a href="javascript:void(0)" onclick="openComments()">comments</a>
 			      <div id="myComments" class="popupComments">
-              <a href="javascript:void(0)" class="closebtn" onclick="closeComments()">&times;</a>
-              <table>
-                <thead>
+              
+              <div class="scroller">
+                <table>
+                
                   {% for comment in comments %}
                   <tr>
-                    <th scope="col">{{comment[2]}}</th>
-                    <th scope="col">{{comment[3]}}</th>
+                    <td scope="col">{{comment[2]}}</td>
+                    <td scope="col">{{comment[3]}}</td>
                   </tr>
                   {% endfor %}
-                </thead>
-              </table>
+                </table>
+              </div>
             </div>
           </div>
 
