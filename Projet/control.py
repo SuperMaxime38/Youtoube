@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request, redirect, session
-from .modele import getTopVideos, getVideo, research, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked, getComments, countLikes, countViews, updateViews, uploadVideo, getVideosByUser, getVideosHistory
+from .modele import getTopVideos, getVideo, research, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked, getComments, countLikes, countViews, updateViews, uploadVideo, getVideosByUser, getVideosHistory, getTendances
 import uuid,os
 app = Flask(__name__)
 
@@ -15,6 +15,15 @@ def index():
     
     return render_template('index.html', videos = videos, isLogged = isLogged)
 
+
+@app.route("/trends", methods=['GET', 'POST'])
+def trends():
+    videos = getTendances()
+    isLogged = False
+    if('ID' in session):
+        isLogged = True
+
+    return render_template('index.html', videos = videos, isLogged = isLogged)
 
 @app.route("/video", methods=['POST', 'GET'])
 def video():
@@ -294,5 +303,4 @@ def history():
     
     userID = session['ID']
     videos = getVideosHistory(userID)
-    print('histry: ', videos)
     return render_template('history.html', videos = videos)

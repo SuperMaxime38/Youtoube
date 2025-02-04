@@ -24,8 +24,10 @@
   </svg>
 </a>
 <a href="/" class="inactive" >Accueil</a>
-<a href="#about" class="inactive" >Nouveautés</a>
-<a href="#contact" class="inactive" >Lorem</a>
+<a href="/trends" class="inactive" >Tendances</a>
+{%if isLogged %}
+<a href="/account" class="inactive" >Logged as {{session['username']}}</a>
+{% endif %}
 </div>
 {% endblock %}
 

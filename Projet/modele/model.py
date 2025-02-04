@@ -7,29 +7,22 @@ def ouvrir_connexion():
         print(e)
     return cnx
 
-def selectionner_livre():
-    cnx = ouvrir_connexion()
-    cur = cnx.cursor()
-    cur.execute("SELECT * FROM livre")
-    rows = cur.fetchall()
-    cnx.close()
-    return rows
-
-def mettre_a_jour_table_livre(resultat):
-    
-    cnx = ouvrir_connexion()
-    cur = cnx.cursor()
-    cur.execute("INSERT INTO livre VALUES (?, ?, ?, ?)",(resultat['titre'], \
-                    resultat['editeur'], resultat['annee'], resultat['isbn']))
-    cnx.commit()
-    cnx.close()
-
 
 def getTopVideos():
 
     cnx = ouvrir_connexion()
     cur = cnx.cursor()
     cur.execute("SELECT * FROM Videos")
+    rows = cur.fetchall()
+    cnx.close()
+
+    return getVideoTable(rows)
+
+def getTendances():
+
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor() 
+    cur.execute("SELECT * FROM Videos ORDER BY views DESC")
     rows = cur.fetchall()
     cnx.close()
 
@@ -67,7 +60,7 @@ def research(query):
 
     cnx = ouvrir_connexion()
     cur = cnx.cursor()
-    cur.execute("SELECT * FROM Videos WHERE title LIKE ?", (f"%{query}%",))
+    cur.execute("SELECT * FROM Videos WHERE title LIKE ? OR author LIKE ?", (f"%{query}%", f"%{query}%"))
     rows = cur.fetchall()
     cnx.close()
 
@@ -264,10 +257,11 @@ def getVideosHistory(userID):
     cnx = ouvrir_connexion()
     cur = cnx.cursor()
     cur.execute("SELECT videoID FROM Historique WHERE userID = ? ORDER BY CAST(\"DATE\" AS INTEGER) DESC;", (userID,))
-    rows = cur.fetchall()[0]
+    rows = cur.fetchall()
     cnx.close()
 
+    print(rows)
     result = []
     for row in rows:
-        result.append(getVideo(row))
+        result.append(getVideo(row[0]))
     return result
