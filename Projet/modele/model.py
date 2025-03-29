@@ -46,7 +46,6 @@ def getVideoTable(videoList: list):
     return videos
 
 def getVideo(videoId):
-
     cnx = ouvrir_connexion()
     cur = cnx.cursor()
     cur.execute("SELECT * FROM Videos WHERE id = ?", (videoId,))
@@ -260,7 +259,6 @@ def getVideosHistory(userID):
     rows = cur.fetchall()
     cnx.close()
 
-    print(rows)
     result = []
     for row in rows:
         result.append(getVideo(row[0]))

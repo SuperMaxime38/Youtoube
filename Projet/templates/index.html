@@ -46,7 +46,7 @@
             <td class="minia">
                 <form action="/video" method="POST" id="videoform">
                     <button type="submit" name="video" value="{{video[0]}}">
-                        <video name="vid"  id="{{video[0]}}">
+                        <video name="vid"  id="{{video[0]}}" class="video">
                             <source src="{{url_for('static', filename=video[2])}}" type="video/mp4">
                         </video>
                     </button>

@@ -230,6 +230,10 @@ video {
   padding: auto;
 }
 
+.video {
+  width: 100%;
+}
+
 .autresvideos {
   border: 1px solid yellow;
   width: 96.5%;

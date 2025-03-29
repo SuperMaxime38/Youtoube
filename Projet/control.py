@@ -28,36 +28,43 @@ def trends():
 @app.route("/video", methods=['POST', 'GET'])
 def video():
     isLiked = False
+    video_id = -1
+    video = []
     if request.method == 'POST':
         result = request.form
         id = result['video']
         video = getVideo(id)
         session['watching'] = video
+        video_id = id
+        print("request: " , video)
     else:
         if 'video' in request.args:
             id = request.args.get('video')
+            video_id = id
             video = getVideo(id)
+            session['watching'] = video
         elif 'watching' in session:
             video = session['watching']
+            video_id = video[0]
         else:
             redirect(url_for('index'))
         isLiked = request.args.get('liked')
 
     isLogged = False
     if ('ID' in session): #If logged, should add video into 'Historique'
-        handleView(video[0], session['ID'])
-        isLiked = isVideoLiked(video[0], session['ID'])
+        handleView(video_id, session['ID'])
+        isLiked = isVideoLiked(video_id, session['ID'])
         isLogged = True
         
     if isLiked is None:
         isLiked = False
-
-    video_id = video[0]
     comments = getComments(video_id)
 
     likes = countLikes(video_id)
     views = countViews(video_id)
     updateViews(video_id)
+
+    print(video)
     
     return render_template('displayVid.html', video = video, isLiked = isLiked, comments = comments, isLogged = isLogged, likes = likes, views = views, autresvideos = getTopVideos())
 
