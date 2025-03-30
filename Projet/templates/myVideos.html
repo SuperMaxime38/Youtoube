@@ -4,7 +4,11 @@
 {% block contenu0 %}
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    {% if isLogged %}
+    <a href="/account" >Mon&#160;compte</a>
+    {% else %}
     <a href="javascript:void(0)" onclick="openLoginScreen()">Mon&#160;compte</a>
+    {% endif %}
     <a href="/my/videos">Mes&#160;vidéos</a>
     <a href="/history">Historique</a>
     <a href="/logout">Se&#160;déconnecter</a>

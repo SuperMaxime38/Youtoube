@@ -169,7 +169,7 @@ def account():
         if color is None:
             color = "red"
 
-        return render_template('account.html', user = user, msg = msg, color = color)
+        return render_template('account.html', user = user, msg = msg, color = color, isLogged = True)
 
 
 @app.route("/change/password", methods=['POST'])
@@ -301,7 +301,7 @@ def my_videos():
     else:
         userID = session['ID']
         videos = getVideosByUser(userID)
-        return render_template('myVideos.html', videos = videos)
+        return render_template('myVideos.html', videos = videos, isLogged = True)
     
 @app.route("/history", methods=['GET', 'POST'])
 def history():
@@ -310,4 +310,4 @@ def history():
     
     userID = session['ID']
     videos = getVideosHistory(userID)
-    return render_template('history.html', videos = videos)
+    return render_template('history.html', videos = videos, isLogged = True)
