@@ -44,7 +44,7 @@
         {% for video in videos %}
         <tr>
             <td>
-                <form action="/video" method="POST" id="videoform">
+                <form action="/manage" method="POST" id="videoform">
                 <button type="submit" name="video" value="{{video[0]}}" class="minia">
                     <video name="vid"  id="{{video[0]}}">
                         <source src="{{url_for('static', filename=video[2])}}" type="video/mp4">
@@ -72,6 +72,16 @@
                 <label>Description:</label>
                 <textarea type="text" name="description" cols="100" rows="16"></textarea>
               <input type=file name=file>
+              <table>
+                <tr>
+                    <td>
+                        <label>Vidéo privée:</label>
+                        <input type="checkbox">
+                    </td>
+                </tr>
+                
+              </table>
+              
               <input type=submit value="POSTER">
             </form>
         </div>

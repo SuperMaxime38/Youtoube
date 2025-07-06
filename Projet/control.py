@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request, redirect, session
-from .modele import getTopVideos, getVideo, research, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked, getComments, countLikes, countViews, updateViews, uploadVideo, getVideosByUser, getVideosHistory, getTendances
+from .modele import getTopVideos, getVideo, research, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked, getComments, countLikes, countViews, updateViews, uploadVideo, getVideosByUser, getVideosHistory, getTendances, updateVideo, updatePrivateMembers
 import uuid,os
 app = Flask(__name__)
 
@@ -285,8 +285,9 @@ def upload():
             url = "videos/" + filename
             title = request.form['title']
             description = request.form['description']
+            isPrivate = request.form['isPrivate']
 
-            uploadVideo(videoID, author, url, title, description, userID)
+            uploadVideo(videoID, author, url, title, description, userID, isPrivate)
 
             return redirect(url_for('index'))    
     
@@ -303,6 +304,42 @@ def my_videos():
         videos = getVideosByUser(userID)
         return render_template('myVideos.html', videos = videos, isLogged = True)
     
+@app.route("/manage", methods=['GET', 'POST'])
+def manage_video():
+    if 'ID' not in session:
+        return redirect(url_for('login', nextURL="my_videos"))
+    videoID = session['watching'][0]
+    video = getVideo(videoID)
+    return render_template('manage_video.html', video = video, isLogged = True)
+
+@app.route("/manage/update", methods=['GET', 'POST'])
+def update_video():
+    if 'ID' not in session:
+        return redirect(url_for('login', nextURL="my_videos"))
+    
+    if request.method == 'POST':
+        videoID = request.form['id']
+        title = request.form['title']
+        description = request.form['description']
+        isPrivate = request.form['private']
+        updateVideo(videoID, title, description, isPrivate)
+        return redirect(url_for('my_videos'))
+    
+@app.route("/manage/addMember", methods=['GET', 'POST'])
+def addMember():
+    if 'ID' not in session:
+        return redirect(url_for('login', nextURL="my_videos"))
+    
+    if request.method == 'POST':
+        videoID = request.form['id']
+        email = request.form['email']
+        
+        # DO THE THING TO FETCH ALL MEMBERS AND UPDATE
+
+
+        return redirect(url_for('my_videos'))
+
+
 @app.route("/history", methods=['GET', 'POST'])
 def history():
     if 'ID' not in session:

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+{% block contenu0 %}
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    {% if isLogged %}
+    <a href="/account" >Mon&#160;compte</a>
+    {% else %}
+    <a href="javascript:void(0)" onclick="openLoginScreen()">Mon&#160;compte</a>
+    {% endif %}
+    <a href="/my/videos">Mes&#160;vidéos</a>
+    <a href="/history">Historique</a>
+    <a href="/logout">Se&#160;déconnecter</a>
+</div>
+{% endblock %}
+
+{% block contenu1 %}
+<div class="topnav-left">
+    <!--NAVBAR BUTTON-->
+<a onclick="openNav()" class="navbutton">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="auto" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+    </svg>
+</a>
+<a class="active" href="/">Accueil</a>
+<a href="/trends" class="inactive" >Tendances</a>
+{%if isLogged %}
+<a href="/account" class="inactive" >Logged as {{session['username']}}</a>
+{% endif %}
+</div>
+{% endblock %}
+
+<!--Indicates current page for login-->
+{% block currentPage %}
+<input type="hidden" name="current" value="myVideos"></span>
+{% endblock %}
+
+{% block contenu2 %}
+<div class="myVideos">
+    <div>
+        <h2>Gérer la vidéo {{video[3]}}</h2>
+        <form action="../manage/update" method="POST">
+            <table>
+                <tr>
+                    <td>
+                        <label>Titre:</label>
+                        <textarea type="text" name="title" cols="100" rows="1">{{video[3]}}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Description:</label>
+                        <textarea type="text" name="description" cols="100" rows="16">{{video[5]}}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Privée:</label>
+                        <input type="checkbox" name="private" value={{video[7]}}>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Membres de la vidéo privée:</label>
+                        <!--DO THAT-->
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <form action="../manage/addMember" method="POST">
+                            <label>Ajouter un membre:</label>
+                            <br>
+                            <label>Adresse email:</label><input type="email" name="email"></label>
+                            <br>
+                            <input type="hidden" name="id" value={{video[0]}}>
+                            <input type=submit value="Ajouter">
+                        </form>
+                    </td>
+                </tr>
+            </table>
+            
+            
+
+            <input type="hidden" name="id" value={{video[0]}}>
+            <input type=submit value="Modifier">
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+

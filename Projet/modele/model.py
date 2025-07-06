@@ -227,10 +227,26 @@ def countLikes(videoID):
     return rows[0][0] # ya qu'un élément qui est le nombre de likes
 
 
-def uploadVideo(videoID, author, url, title, description, userID):
+def uploadVideo(videoID, author, url, title, description, userID, isPrivate):
     cnx = ouvrir_connexion()
     cur = cnx.cursor()
-    cur.execute("INSERT INTO Videos VALUES (?, ?, ?, ?, ?, ?, ?)", (videoID, author, url, title, 0, description, userID))
+    cur.execute("INSERT INTO Videos VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (videoID, author, url, title, 0, description, userID, isPrivate))
+    cnx.commit()
+    cnx.close()
+
+def updateVideo(videoID, title, description, isPrivate):
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    cur.execute("UPDATE Videos SET title = ?, description = ?, isPrivate = ? WHERE id = ?", (title, description, isPrivate, videoID))
+    cnx.commit()
+    cnx.close()
+
+def updatePrivateMembers(videoID, members):
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    cur.execute("DELETE FROM PrivateVideosAuthorization WHERE videoID = ?", (videoID,))
+    for member in members:
+        cur.execute("INSERT INTO PrivateVideosAuthorization VALUES (?, ?)", (videoID, member))
     cnx.commit()
     cnx.close()
 
@@ -238,6 +254,9 @@ def deleteVideo(videoID):
     cnx = ouvrir_connexion()
     cur = cnx.cursor()
     cur.execute("DELETE FROM Videos WHERE id = ?", (videoID,))
+    cur.execute("DELETE FROM Historique WHERE videoID = ?", (videoID,))
+    cur.execute("DELETE FROM Commentaires WHERE id_video = ?", (videoID,))
+    cur.execute("DELETE FROM PrivateVideosAuthorization WHERE videoID = ?", (videoID,))
     cnx.commit()
     cnx.close()
 
