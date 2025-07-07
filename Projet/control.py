@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request, redirect, session
-from .modele import getTopVideos, getVideo, research, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked, getComments, countLikes, countViews, updateViews, uploadVideo, getVideosByUser, getVideosHistory, getTendances, updateVideo, updatePrivateMembers
+from .modele import getTopVideos, getVideo, research, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked, getComments, countLikes, countViews, updateViews, uploadVideo, getVideosByUser, getVideosHistory, getTendances, updateVideo, updatePrivateMembers, addMember, getPrivateMembers, removeMember
 import uuid,os
 app = Flask(__name__)
 
@@ -285,7 +285,8 @@ def upload():
             url = "videos/" + filename
             title = request.form['title']
             description = request.form['description']
-            isPrivate = request.form['isPrivate']
+            isPrivate = request.form.get('is_private', "")
+            print("is private: ", isPrivate)
 
             uploadVideo(videoID, author, url, title, description, userID, isPrivate)
 
@@ -308,9 +309,26 @@ def my_videos():
 def manage_video():
     if 'ID' not in session:
         return redirect(url_for('login', nextURL="my_videos"))
-    videoID = session['watching'][0]
+
+    if request.method == 'POST':
+
+        videoID = request.form['video']
+    else:
+        videoID = session['watching'][0]
+
     video = getVideo(videoID)
-    return render_template('manage_video.html', video = video, isLogged = True)
+    session['watching'] = video
+
+    print("video : ", video)
+
+    members = []
+    for id in getPrivateMembers(videoID):
+        print(id)
+        members.append(getUser(id))
+
+    return render_template('manage_video.html', video = video, isLogged = True, members = members)
+    
+
 
 @app.route("/manage/update", methods=['GET', 'POST'])
 def update_video():
@@ -321,23 +339,44 @@ def update_video():
         videoID = request.form['id']
         title = request.form['title']
         description = request.form['description']
-        isPrivate = request.form['private']
+        
+        checkboxes = request.form.getlist('checkbox')
+        print("checkboxes: ", checkboxes)
+        if len(checkboxes) > 0:
+            isPrivate = "on"
+        else:
+            isPrivate = ""
+
         updateVideo(videoID, title, description, isPrivate)
-        return redirect(url_for('my_videos'))
+
+    else:
+        videoID = session['watching'][0]
+
+    members = []
+    for id in getPrivateMembers(videoID):
+        members.append(getUser(id))
+
+
+    print("updated video !")
+
+    return redirect(url_for('my_videos'))
     
 @app.route("/manage/addMember", methods=['GET', 'POST'])
-def addMember():
+def add_member():
     if 'ID' not in session:
         return redirect(url_for('login', nextURL="my_videos"))
     
     if request.method == 'POST':
-        videoID = request.form['id']
+        videoID = request.form['video']
         email = request.form['email']
-        
-        # DO THE THING TO FETCH ALL MEMBERS AND UPDATE
 
+        addMember(videoID, email)
+        video = getVideo(videoID)
+        members = []
+        for id in getPrivateMembers(videoID):
+            members.append(getUser(id))
 
-        return redirect(url_for('my_videos'))
+        return redirect(url_for('manage_video', video = video, members = members))
 
 
 @app.route("/history", methods=['GET', 'POST'])

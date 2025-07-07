@@ -238,6 +238,55 @@ def updateVideo(videoID, title, description, isPrivate):
     cnx = ouvrir_connexion()
     cur = cnx.cursor()
     cur.execute("UPDATE Videos SET title = ?, description = ?, isPrivate = ? WHERE id = ?", (title, description, isPrivate, videoID))
+
+    if isPrivate == "on":
+        cur.execute("SELECT userID FROM Videos WHERE id = ?", (videoID,))
+        rows = cur.fetchall()
+
+        if len(rows) == 0:
+            return
+
+        userID = rows[0][0]
+
+        cur.execute("INSERT INTO PrivateVideosAuthorization VALUES (?, ?)", (videoID, userID))
+
+    cnx.commit()
+    cnx.close()
+
+def getUserFromMail(mail):
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    cur.execute("SELECT userID FROM Utilisateurs WHERE adr_mail = ?", (mail,))
+    rows = cur.fetchall()
+    cnx.close()
+
+    if len(rows) == 0:
+        return None
+
+    return rows[0][0]
+
+def getMailFromUser(userID):
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    cur.execute("SELECT adr_mail FROM Utilisateurs WHERE userID = ?", (userID,))
+    rows = cur.fetchall()
+    cnx.close()
+
+    if len(rows) == 0:
+        return None
+
+    return rows[0][0]
+
+def addMember(videoID, mail):
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    
+    userID = getUserFromMail(mail)
+
+    if len(userID) == None:
+        return
+
+    cur.execute("INSERT INTO PrivateVideosAuthorization VALUES (?, ?)", (videoID, userID))
     cnx.commit()
     cnx.close()
 
@@ -247,6 +296,25 @@ def updatePrivateMembers(videoID, members):
     cur.execute("DELETE FROM PrivateVideosAuthorization WHERE videoID = ?", (videoID,))
     for member in members:
         cur.execute("INSERT INTO PrivateVideosAuthorization VALUES (?, ?)", (videoID, member))
+    cnx.commit()
+    cnx.close()
+
+def getPrivateMembers(videoID):
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    cur.execute("SELECT userID FROM PrivateVideosAuthorization WHERE videoID = ?", (videoID,))
+    rows = cur.fetchall()
+    cnx.close()
+
+    if len(rows) == 0:
+        return []
+
+    return rows[0]
+
+def removeMember(videoID, userID):
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    cur.execute("DELETE FROM PrivateVideosAuthorization WHERE videoID = ? AND userID = ?", (videoID, userID))
     cnx.commit()
     cnx.close()
 

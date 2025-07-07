@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Manage videos{% endblock %}
 {% block contenu0 %}
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -40,7 +40,7 @@
 <div class="myVideos">
     <div>
         <h2>Gérer la vidéo {{video[3]}}</h2>
-        <form action="../manage/update" method="POST">
+        <form action="manage/update" method="POST">
             <table>
                 <tr>
                     <td>
@@ -57,25 +57,20 @@
                 <tr>
                     <td>
                         <label>Privée:</label>
-                        <input type="checkbox" name="private" value={{video[7]}}>
+                        <input type="checkbox" name="checkbox" id="is_private" value={{video[7]}}>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <label>Membres de la vidéo privée:</label>
-                        <!--DO THAT-->
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <form action="../manage/addMember" method="POST">
-                            <label>Ajouter un membre:</label>
-                            <br>
-                            <label>Adresse email:</label><input type="email" name="email"></label>
-                            <br>
-                            <input type="hidden" name="id" value={{video[0]}}>
-                            <input type=submit value="Ajouter">
-                        </form>
+                        <ul>
+                            {% for member in members %}
+                            <li>
+                                {{member[1]}}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        
                     </td>
                 </tr>
             </table>
@@ -85,6 +80,17 @@
             <input type="hidden" name="id" value={{video[0]}}>
             <input type=submit value="Modifier">
         </form>
+        {%if video[7] == 'on'%}
+        <p>Ajouter des membres à la vidéo privée</p>
+        <form action="../manage/addMember" method="POST">
+            <label>Ajouter un membre:</label>
+            <br>
+            <label>Adresse email:</label><input type="email" name="email"></label>
+            <br>
+            <input type="hidden" name="video" value={{video[0]}}>
+            <input type=submit value="Ajouter">
+        </form>
+        {%endif%}
     </div>
 </div>
 
