@@ -31,3 +31,23 @@ function likeVideo() {
     .then((response) => response.json())
     .then((json) => console.log(json));
 }
+
+function deleteVideo(videoID) {
+  if(confirm("Voulez-vous vraiment supprimer cette video ?")) {
+    fetch("/manage/delete", { //url de la requête
+      method: "POST",
+      body: JSON.stringify({ //DATA
+        video: videoID
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        if (json.success) {
+          window.location.href = '/my/videos';
+        }
+      });
+  }
+}

@@ -1,5 +1,5 @@
-from flask import Flask, render_template, url_for, request, redirect, session
-from .modele import getTopVideos, getVideo, research, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked, getComments, countLikes, countViews, updateViews, uploadVideo, getVideosByUser, getVideosHistory, getTendances, updateVideo, updatePrivateMembers, addMember, getPrivateMembers, removeMember
+from flask import Flask, render_template, url_for, request, redirect, session, jsonify
+from .modele import getTopVideos, getVideo, research, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked, getComments, countLikes, countViews, updateViews, uploadVideo, getVideosByUser, getVideosHistory, getTendances, updateVideo, updatePrivateMembers, addMember, getPrivateMembers, removeMember, deleteVideo
 import uuid,os
 app = Flask(__name__)
 
@@ -115,7 +115,6 @@ def login():
         return redirect(url_for('index'))
 
     if request.method == 'POST':
-        print('request: ', request.form)
         resultat = request.form
         rows = db_identification(resultat)
 
@@ -282,10 +281,17 @@ def upload():
             # save the video in DB
             userID = session['ID']
             author = session['username']
-            url = "videos/" + filename
+            url = 'videos/' +filename
             title = request.form['title']
             description = request.form['description']
-            isPrivate = request.form.get('is_private', "")
+            
+            checkbox_value = request.form.get('is_private')
+            if checkbox_value:
+                isPrivate = True
+            else:
+                isPrivate = False
+
+
             print("is private: ", isPrivate)
 
             uploadVideo(videoID, author, url, title, description, userID, isPrivate)
@@ -319,8 +325,6 @@ def manage_video():
     video = getVideo(videoID)
     session['watching'] = video
 
-    print("video : ", video)
-
     members = []
     for id in getPrivateMembers(videoID):
         print(id)
@@ -340,12 +344,13 @@ def update_video():
         title = request.form['title']
         description = request.form['description']
         
-        checkboxes = request.form.getlist('checkbox')
-        print("checkboxes: ", checkboxes)
-        if len(checkboxes) > 0:
-            isPrivate = "on"
+        checkbox_value = request.form.get('is_private')
+        if checkbox_value:
+            isPrivate = True
         else:
-            isPrivate = ""
+            isPrivate = False
+
+        print("is private: ", isPrivate)
 
         updateVideo(videoID, title, description, isPrivate)
 
@@ -359,7 +364,7 @@ def update_video():
 
     print("updated video !")
 
-    return redirect(url_for('my_videos'))
+    return redirect(url_for('manage_video', video = getVideo(videoID), members = members))
     
 @app.route("/manage/addMember", methods=['GET', 'POST'])
 def add_member():
@@ -378,6 +383,41 @@ def add_member():
 
         return redirect(url_for('manage_video', video = video, members = members))
 
+@app.route("/manage/removeMember", methods=['GET', 'POST'])
+def remove_member():
+    if 'ID' not in session:
+        return redirect(url_for('login', nextURL="my_videos"))
+    
+    if request.method == 'POST':
+        videoID = request.form['video']
+        email = request.form['email']
+
+        removeMember(videoID, email)
+        video = getVideo(videoID)
+        members = []
+        for id in getPrivateMembers(videoID):
+            members.append(getUser(id))
+
+        return redirect(url_for('manage_video', video = video, members = members))
+
+@app.route("/manage/delete", methods=['GET', 'POST'])
+def delete_video():
+    if 'ID' not in session:
+        return redirect(url_for('login', nextURL="my_videos"))
+    
+    if request.method == 'POST':
+        data = request.get_json()
+        videoID = data['video']
+
+        video = getVideo(videoID)
+        filename = video[2].split("/", 1)[1]
+
+        deleteVideo(videoID)
+        path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        if os.path.exists(path):
+            os.remove(path)
+
+        return jsonify({'success': True})
 
 @app.route("/history", methods=['GET', 'POST'])
 def history():

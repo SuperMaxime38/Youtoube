@@ -13,7 +13,7 @@ if __name__ == "__main__":
     app.config['DEBUG'] = True
     app.config['UPLOAD_FOLDER'] = os.getcwd() + '\\Projet\\static\\videos'
     app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 * 1024 # 16 Go
-    app.config['ALLOWED_EXTENSIONS'] = {'mp4', 'mkv'}
+    app.config['ALLOWED_EXTENSIONS'] = {'mp4', 'webm', 'ogg'}
     app.config['SECRET_KEY'] = secrets.token_hex()
 
     app.run(debug = True)

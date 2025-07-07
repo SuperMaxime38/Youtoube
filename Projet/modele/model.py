@@ -239,7 +239,7 @@ def updateVideo(videoID, title, description, isPrivate):
     cur = cnx.cursor()
     cur.execute("UPDATE Videos SET title = ?, description = ?, isPrivate = ? WHERE id = ?", (title, description, isPrivate, videoID))
 
-    if isPrivate == "on":
+    if isPrivate == True:
         cur.execute("SELECT userID FROM Videos WHERE id = ?", (videoID,))
         rows = cur.fetchall()
 
@@ -249,6 +249,8 @@ def updateVideo(videoID, title, description, isPrivate):
         userID = rows[0][0]
 
         cur.execute("INSERT INTO PrivateVideosAuthorization VALUES (?, ?)", (videoID, userID))
+    else:
+        cur.execute("DELETE FROM PrivateVideosAuthorization WHERE videoID = ?", (videoID,))
 
     cnx.commit()
     cnx.close()
@@ -311,9 +313,15 @@ def getPrivateMembers(videoID):
 
     return rows[0]
 
-def removeMember(videoID, userID):
+def removeMember(videoID, mail):
     cnx = ouvrir_connexion()
     cur = cnx.cursor()
+
+    userID = getUserFromMail(mail)
+
+    if len(userID) == None:
+        return
+
     cur.execute("DELETE FROM PrivateVideosAuthorization WHERE videoID = ? AND userID = ?", (videoID, userID))
     cnx.commit()
     cnx.close()

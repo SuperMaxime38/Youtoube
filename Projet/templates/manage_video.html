@@ -56,10 +56,15 @@
                 </tr>
                 <tr>
                     <td>
-                        <label>Privée:</label>
-                        <input type="checkbox" name="checkbox" id="is_private" value={{video[7]}}>
+                        <label>Vidéo privée:</label>
+                        {% if video[7] == '1'%}
+                        <input type="checkbox" name="is_private" value="True" checked="true">
+                        {% else %}
+                        <input type="checkbox" name="is_private" value="True">
+                        {% endif %}
                     </td>
                 </tr>
+                {% if video[7] == '1'%}
                 <tr>
                     <td>
                         <label>Membres de la vidéo privée:</label>
@@ -73,6 +78,7 @@
                         
                     </td>
                 </tr>
+                {% endif %}
             </table>
             
             
@@ -80,17 +86,38 @@
             <input type="hidden" name="id" value={{video[0]}}>
             <input type=submit value="Modifier">
         </form>
-        {%if video[7] == 'on'%}
-        <p>Ajouter des membres à la vidéo privée</p>
-        <form action="../manage/addMember" method="POST">
-            <label>Ajouter un membre:</label>
-            <br>
-            <label>Adresse email:</label><input type="email" name="email"></label>
-            <br>
-            <input type="hidden" name="video" value={{video[0]}}>
-            <input type=submit value="Ajouter">
-        </form>
+        {%if video[7] == '1'%}
+        <div>
+            <h2>Gestion des membres de la vidéo privée</h2>
+            <hr>
+            <p>Ajouter des membres à la vidéo privée</p>
+            <form action="../manage/addMember" method="POST">
+                <label>Ajouter un membre:</label>
+                <br>
+                <label>Adresse email:</label><input type="email" name="email"></label>
+                <br>
+                <input type="hidden" name="video" value={{video[0]}}>
+                <input type=submit value="Ajouter">
+            </form>
+            <p>Supprimer des membres de la vidéo privée</p>
+            <form action="../manage/removeMember" method="POST">
+                <label>Supprimer un membre:</label>
+                <br>
+                <label>Adresse email:</label><input type="email" name="email"></label>
+                <br>
+                <input type="hidden" name="video" value={{video[0]}}>
+                <input type=submit value="Supprimer">
+            </form>
+        </div>
+        
         {%endif%}
+
+        <div>
+            <h2>Danger Zone</h2>
+            <hr>
+            <p>Supprimer la vidéo</p>
+            <button type="button" onclick="deleteVideo('{{video[0]}}')">Supprimer</button>
+        </div>
     </div>
 </div>
 
