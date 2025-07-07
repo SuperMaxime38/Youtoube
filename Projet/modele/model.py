@@ -8,7 +8,7 @@ def ouvrir_connexion():
     return cnx
 
 
-def getTopVideos():
+def getTopVideos(userID=None):
 
     cnx = ouvrir_connexion()
     cur = cnx.cursor()
@@ -16,9 +16,9 @@ def getTopVideos():
     rows = cur.fetchall()
     cnx.close()
 
-    return getVideoTable(rows)
+    return getVideoTable(rows, userID)
 
-def getTendances():
+def getTendances(userID = None):
 
     cnx = ouvrir_connexion()
     cur = cnx.cursor() 
@@ -26,18 +26,21 @@ def getTendances():
     rows = cur.fetchall()
     cnx.close()
 
-    return getVideoTable(rows)
+    return getVideoTable(rows, userID)
 
-def getVideoTable(videoList: list):
-    
+def getVideoTable(videoList: list, userID = None):
     
     counter=0
-    videos = [[]]
+    videos = []
     while counter < len(videoList):
         row = []
         for _ in range(6):
             if counter < len(videoList):
-                row.append(videoList[counter])
+                if videoList[counter][7] == "1":
+                    if userID != None and canUserWatch(userID, videoList[counter][0]):
+                        row.append(videoList[counter])
+                else:
+                    row.append(videoList[counter])
                 counter += 1
             else:
                 break
@@ -55,7 +58,7 @@ def getVideo(videoId):
     return rows[0]
 
 
-def research(query):
+def research(query, userID = None):
 
     cnx = ouvrir_connexion()
     cur = cnx.cursor()
@@ -63,9 +66,7 @@ def research(query):
     rows = cur.fetchall()
     cnx.close()
 
-    print(getVideoTable(rows))
-
-    return getVideoTable(rows)
+    return getVideoTable(rows, userID)
 
 def db_identification(resultat):
     #hachage du mot de passe
@@ -358,3 +359,12 @@ def getVideosHistory(userID):
     for row in rows:
         result.append(getVideo(row[0]))
     return result
+
+def canUserWatch(userID, videoID):
+    cnx = ouvrir_connexion()
+    cur = cnx.cursor()
+    cur.execute("SELECT * FROM PrivateVideosAuthorization WHERE userID = ? AND videoID = ?", (userID, videoID))
+    rows = cur.fetchall()
+    cnx.close()
+
+    return len(rows) != 0

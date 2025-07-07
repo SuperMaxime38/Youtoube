@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request, redirect, session, jsonify
-from .modele import getTopVideos, getVideo, research, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked, getComments, countLikes, countViews, updateViews, uploadVideo, getVideosByUser, getVideosHistory, getTendances, updateVideo, updatePrivateMembers, addMember, getPrivateMembers, removeMember, deleteVideo
+from .modele import getTopVideos, getVideo, research, db_identification, comment_update, addUser, getUser, changePassword, handleView, likeVideo, isVideoLiked, getComments, countLikes, countViews, updateViews, uploadVideo, getVideosByUser, getVideosHistory, getTendances, updateVideo, updatePrivateMembers, addMember, getPrivateMembers, removeMember, deleteVideo, canUserWatch, getMailFromUser
 import uuid,os
 app = Flask(__name__)
 
@@ -8,22 +8,26 @@ app.config.from_pyfile('config.py')
 
 @app.route('/')
 def index():
-    videos = getTopVideos()
     isLogged = False
     if('ID' in session):
         isLogged = True
-    
-    return render_template('index.html', videos = videos, isLogged = isLogged)
+        videos = getTopVideos(session['ID'])
+    else:
+        videos = getTopVideos()
+
+    return render_template('index.html', videos = videos, isLogged = isLogged, mainSelected = True)
 
 
 @app.route("/trends", methods=['GET', 'POST'])
 def trends():
-    videos = getTendances()
     isLogged = False
     if('ID' in session):
         isLogged = True
+        videos = getTendances(session['ID'])
+    else:
+        videos = getTendances()
 
-    return render_template('index.html', videos = videos, isLogged = isLogged)
+    return render_template('index.html', videos = videos, isLogged = isLogged, mainSelected = False)
 
 @app.route("/video", methods=['POST', 'GET'])
 def video():
@@ -91,18 +95,20 @@ def like():
 
 @app.route("/search", methods=['GET', 'POST'])
 def search():
+    isLogged = False
+    if('ID' in session):
+        isLogged = True
     if request.method == 'POST':
         query = request.form['query']
-        videos = research(query)
+        if isLogged:
+            videos = research(query, session['ID'])
+        else:
+            videos = research(query)
         session['videos'] = videos
         session['query'] = query
     else:
         videos = session['videos']
         query = session['query']
-
-    isLogged = False
-    if('ID' in session):
-        isLogged = True
 
     return render_template('search.html', videos = videos, query = query, isLogged = isLogged)
 
@@ -288,6 +294,7 @@ def upload():
             checkbox_value = request.form.get('is_private')
             if checkbox_value:
                 isPrivate = True
+                addMember(videoID, getMailFromUser(userID)) #the author can see his own video
             else:
                 isPrivate = False
 

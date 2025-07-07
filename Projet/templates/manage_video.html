@@ -37,20 +37,27 @@
 {% endblock %}
 
 {% block contenu2 %}
-<div class="myVideos">
+<div class="manageVideo">
     <div>
-        <h2>Gérer la vidéo {{video[3]}}</h2>
+        <div>
+        <h2>Gérer la vidéo: "{{video[3]}}"</h2>
+        <hr>
         <form action="manage/update" method="POST">
             <table>
                 <tr>
                     <td>
                         <label>Titre:</label>
+                    </td>
+                    <td>
+                        
                         <textarea type="text" name="title" cols="100" rows="1">{{video[3]}}</textarea>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <label>Description:</label>
+                    </td>
+                    <td>
                         <textarea type="text" name="description" cols="100" rows="16">{{video[5]}}</textarea>
                     </td>
                 </tr>
@@ -84,8 +91,10 @@
             
 
             <input type="hidden" name="id" value={{video[0]}}>
-            <input type=submit value="Modifier">
+            <br><br><hr>
+            <input type=submit value="Appliquer les modifications" class="fat">
         </form>
+        </div>
         {%if video[7] == '1'%}
         <div>
             <h2>Gestion des membres de la vidéo privée</h2>
@@ -99,6 +108,7 @@
                 <input type="hidden" name="video" value={{video[0]}}>
                 <input type=submit value="Ajouter">
             </form>
+            <hr>
             <p>Supprimer des membres de la vidéo privée</p>
             <form action="../manage/removeMember" method="POST">
                 <label>Supprimer un membre:</label>
@@ -115,8 +125,8 @@
         <div>
             <h2>Danger Zone</h2>
             <hr>
-            <p>Supprimer la vidéo</p>
-            <button type="button" onclick="deleteVideo('{{video[0]}}')">Supprimer</button>
+            <p>Supprimer la vidéo : <button type="button" class="danger" onclick="deleteVideo('{{video[0]}}')">Supprimer</button></p>
+            
         </div>
     </div>
 </div>
